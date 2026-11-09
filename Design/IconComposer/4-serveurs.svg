@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="unit" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#334155"/><stop offset="1" stop-color="#1E293B"/>
+    </linearGradient>
+  </defs>
+  <rect x="244" y="372" width="536" height="118" rx="24" fill="url(#unit)"/>
+  <rect x="412" y="425.0" width="96" height="12" rx="6" fill="#64748B"/>
+  <rect x="544" y="402.0" width="196" height="10" rx="5" fill="#475569"/>
+  <rect x="544" y="426.0" width="196" height="10" rx="5" fill="#475569"/>
+  <rect x="544" y="450.0" width="196" height="10" rx="5" fill="#475569"/>
+  <rect x="244" y="516" width="536" height="118" rx="24" fill="url(#unit)"/>
+  <rect x="412" y="569.0" width="96" height="12" rx="6" fill="#64748B"/>
+  <rect x="544" y="546.0" width="196" height="10" rx="5" fill="#475569"/>
+  <rect x="544" y="570.0" width="196" height="10" rx="5" fill="#475569"/>
+  <rect x="544" y="594.0" width="196" height="10" rx="5" fill="#475569"/>
+  <rect x="244" y="660" width="536" height="118" rx="24" fill="url(#unit)"/>
+  <rect x="412" y="713.0" width="96" height="12" rx="6" fill="#64748B"/>
+  <rect x="544" y="690.0" width="196" height="10" rx="5" fill="#475569"/>
+  <rect x="544" y="714.0" width="196" height="10" rx="5" fill="#475569"/>
+  <rect x="544" y="738.0" width="196" height="10" rx="5" fill="#475569"/>
+</svg>
