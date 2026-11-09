@@ -3,6 +3,27 @@
   <channel>
     <title>LabPanel</title>
     <link>https://github.com/Aervorn/MacOS_LabPanel</link>
-    <!-- Réécrit par scripts/make-dmg.sh à chaque version publiée -->
+    <item>
+      <title>LabPanel 0.1.0</title>
+      <pubDate>Mon, 09 Nov 2026 21:29:32 +0000</pubDate>
+      <sparkle:version>1</sparkle:version>
+      <sparkle:shortVersionString>0.1.0</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>26.0</sparkle:minimumSystemVersion>
+      <description><![CDATA[<ul><li>First version.</li>
+<li>Tabs in the title bar with service icons and colors, sliding highlight, compact mode, ⌘1…⌘9.</li>
+<li>Nine starting services (UniFi, DSM, Proxmox, Dockhand, AdGuard, NPM, NUT, Home Assistant, Zigbee2MQTT) and custom services.</li>
+<li>Pages kept alive, separate cookies per service, pop-up windows, downloads, file uploads, HTTP passwords.</li>
+<li>Self-signed certificates accepted per service, <b>Trust</b> button on certificate errors.</li>
+<li>Availability dot on each tab.</li>
+<li>English and French interface, light/dark/automatic appearance, app icon made for macOS 26, Sparkle updates.</li></ul>]]></description>
+      <description xml:lang="fr"><![CDATA[<ul><li>Première version.</li>
+<li>Onglets dans la barre de titre avec l'icône et la couleur de chaque service, surbrillance qui glisse, mode compact, ⌘1…⌘9.</li>
+<li>Neuf services de départ (UniFi, DSM, Proxmox, Dockhand, AdGuard, NPM, NUT, Home Assistant, Zigbee2MQTT) et services personnalisés.</li>
+<li>Pages gardées ouvertes, cookies séparés par service, fenêtres surgissantes, téléchargements, envoi de fichiers, mots de passe HTTP.</li>
+<li>Certificats auto-signés acceptés service par service, bouton <b>Faire confiance</b> sur les erreurs de certificat.</li>
+<li>Pastille de disponibilité sur chaque onglet.</li>
+<li>Interface en français et en anglais, apparence claire/sombre/automatique, icône pensée pour macOS 26, mises à jour Sparkle.</li></ul>]]></description>
+      <enclosure url="https://github.com/Aervorn/MacOS_LabPanel/releases/download/v0.1.0/LabPanel-0.1.0.dmg" type="application/octet-stream" sparkle:edSignature="+tY/bG+htxXs9Ly3jx9189phkEUWV/P0fWc2rHH31IxtKQ3BilKPCkGm1wYxhULwo0mGPBGAznPsP4+o6NZkDg==" length="3603019" />
+    </item>
   </channel>
 </rss>
