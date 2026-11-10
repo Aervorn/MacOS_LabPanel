@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="Design/LabPanel-icon.svg" width="128" alt="Icône de LabPanel" />
+  <img src="Design/LabPanel-icon.png" width="128" alt="Icône de LabPanel" />
 </p>
 
 <h1 align="center">LabPanel</h1>
@@ -197,7 +197,7 @@ LabPanel/
 ├── Localizable.xcstrings   textes de l'interface, en français (source) et en anglais
 └── AppIcon.icon            icône de l'app (Icon Composer)
 LabPanelTests/              tests (Swift Testing)
-Design/                     calques de l'icône, fond du DMG et les scripts qui les génèrent
+Design/                     image de l'icône, fond du DMG et le script qui le génère
 scripts/make-dmg.sh         fabrique le DMG d'une version et l'appcast de Sparkle
 ```
 
