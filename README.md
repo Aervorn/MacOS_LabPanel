@@ -154,6 +154,9 @@ LabPanel updates itself: it checks for a new version once a day and offers to in
 
 ## 📝 Changelog
 
+### 0.2.1
+- New app icon.
+
 ### 0.2.0
 - Two tab styles: capsule at the top (only the open tab shows its name, option to show them all) or floating dock at the bottom (magnification, auto-hide).
 - Quick switcher (⌘K) for services and their common actions.

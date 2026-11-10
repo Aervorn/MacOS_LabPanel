@@ -154,6 +154,9 @@ LabPanel se met à jour toute seule : elle cherche une nouvelle version une fois
 
 ## 📝 Historique
 
+### 0.2.1
+- Nouvelle icône de l'app.
+
 ### 0.2.0
 - Deux styles d'onglets : capsule en haut (seul l'onglet ouvert affiche son nom, option pour les afficher tous) ou dock flottant en bas (grossissement, masquage automatique).
 - Sélecteur rapide (⌘K) pour les services et leurs actions courantes.
