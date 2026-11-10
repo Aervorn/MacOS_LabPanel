@@ -26,8 +26,14 @@ Each page stays alive when you switch tabs, keeps its own sign-in, and a dot on 
 
 ## 📸 Screenshots
 
-<!-- Ajoute ici tes captures : docs/screenshots/tabs.png, setup.png, settings.png -->
-*Coming soon.*
+<p align="center">
+  <img src="docs/home_en.png" width="49%" alt="Capsule tab bar" />
+  <img src="docs/dock_en.png" width="49%" alt="Floating dock" />
+</p>
+<p align="center">
+  <img src="docs/switcher_en.png" width="49%" alt="Quick switcher (⌘K)" />
+  <img src="docs/settings_en.png" width="38%" alt="Settings" />
+</p>
 
 ## ✨ Features
 

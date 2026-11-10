@@ -26,8 +26,14 @@ Chaque page reste ouverte quand tu changes d'onglet, garde sa propre connexion, 
 
 ## 📸 Captures d'écran
 
-<!-- Ajoute ici tes captures : docs/screenshots/tabs.png, setup.png, settings.png -->
-*Bientôt.*
+<p align="center">
+  <img src="docs/home_fr.png" width="49%" alt="Capsule d’onglets" />
+  <img src="docs/dock_fr.png" width="49%" alt="Dock flottant" />
+</p>
+<p align="center">
+  <img src="docs/switcher_fr.png" width="49%" alt="Sélecteur rapide (⌘K)" />
+  <img src="docs/settings_fr.png" width="38%" alt="Réglages" />
+</p>
 
 ## ✨ Fonctionnalités
 
