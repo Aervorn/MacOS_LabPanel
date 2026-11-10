@@ -4,24 +4,14 @@
     <title>LabPanel</title>
     <link>https://github.com/Aervorn/MacOS_LabPanel</link>
     <item>
-      <title>LabPanel 0.2.0</title>
-      <pubDate>Tue, 10 Nov 2026 07:07:38 +0000</pubDate>
-      <sparkle:version>2</sparkle:version>
-      <sparkle:shortVersionString>0.2.0</sparkle:shortVersionString>
+      <title>LabPanel 0.2.1</title>
+      <pubDate>Tue, 10 Nov 2026 17:42:10 +0000</pubDate>
+      <sparkle:version>3</sparkle:version>
+      <sparkle:shortVersionString>0.2.1</sparkle:shortVersionString>
       <sparkle:minimumSystemVersion>26.0</sparkle:minimumSystemVersion>
-      <description><![CDATA[<ul><li>Two tab styles: capsule at the top (only the open tab shows its name, option to show them all) or floating dock at the bottom (magnification, auto-hide).</li>
-<li>Quick switcher (⌘K) for services and their common actions.</li>
-<li>Inactive tabs unloaded after a chosen delay or when memory runs low, per-service exemption (on for Proxmox).</li>
-<li>Official service icons (Dashboard Icons) with search, SF Symbols or custom images.</li>
-<li>Interface language picker in Settings.</li>
-<li>Automatic sign-in from the macOS keychain (fill, or fill and submit), with <b>Fill Login</b> (⌥⌘L).</li></ul>]]></description>
-      <description xml:lang="fr"><![CDATA[<ul><li>Deux styles d'onglets : capsule en haut (seul l'onglet ouvert affiche son nom, option pour les afficher tous) ou dock flottant en bas (grossissement, masquage automatique).</li>
-<li>Sélecteur rapide (⌘K) pour les services et leurs actions courantes.</li>
-<li>Onglets inactifs déchargés après un délai choisi ou quand la mémoire manque, exemption par service (activée pour Proxmox).</li>
-<li>Icônes officielles des services (Dashboard Icons) avec recherche, SF Symbols ou images personnelles.</li>
-<li>Choix de la langue de l'interface dans les Réglages.</li>
-<li>Connexion automatique depuis le trousseau macOS (remplir, ou remplir et valider), avec <b>Remplir l'identifiant</b> (⌥⌘L).</li></ul>]]></description>
-      <enclosure url="https://github.com/Aervorn/MacOS_LabPanel/releases/download/v0.2.0/LabPanel-0.2.0.dmg" type="application/octet-stream" sparkle:edSignature="VMlrmWg/rM4EMsrqCZ40Z80VJA6acBqrjAQPXgonFknMH3iN2DwvszJ7aEhliq9JvYx46DORhoG20oT5iu3pCA==" length="3976211" />
+      <description><![CDATA[<ul><li>New app icon.</li></ul>]]></description>
+      <description xml:lang="fr"><![CDATA[<ul><li>Nouvelle icône de l'app.</li></ul>]]></description>
+      <enclosure url="https://github.com/Aervorn/MacOS_LabPanel/releases/download/v0.2.1/LabPanel-0.2.1.dmg" type="application/octet-stream" sparkle:edSignature="LJJs6z+SCCurdGzOfRO6RQi0Ya/9s1xjev5kywFvnDjZTaR7+CWNXQBGn+AAEQLNdc51WqBCEBrilb+GEG2XCg==" length="6125186" />
     </item>
   </channel>
 </rss>
