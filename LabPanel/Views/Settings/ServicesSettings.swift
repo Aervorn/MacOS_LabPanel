@@ -5,6 +5,7 @@ import SwiftUI
 struct ServicesSettings: View {
     @Environment(ServiceStore.self) private var store
     @Environment(Browser.self) private var browser
+    @Environment(IconLibrary.self) private var icons
     @State private var removing: Service?
 
     var body: some View {
@@ -80,10 +81,12 @@ struct ServicesSettings: View {
         ) { service in
             Button("Supprimer", role: .destructive) {
                 store.remove(service.id)
+                icons.removeImported(service.icon)
+                CredentialStore.delete(service.id)
                 Task { await browser.forgetData(for: service.id) }
             }
         } message: { _ in
-            Text("Son onglet disparaît, et ses cookies et données de connexion sont effacés.")
+            Text("Son onglet disparaît, et ses cookies, données de connexion et identifiant enregistré sont effacés.")
         }
     }
 }
@@ -165,7 +168,7 @@ private struct ServiceEditor: View {
                     if addressChanged {
                         HStack {
                             if address.isEmpty || pendingURL != nil {
-                                Text(pendingURL.map { "→ \($0.absoluteString)" } ?? "")
+                                Text(verbatim: pendingURL.map { "→ \($0.absoluteString)" } ?? "")
                                     .font(.caption.monospaced())
                                     .foregroundStyle(.secondary)
                             } else {
@@ -183,35 +186,11 @@ private struct ServiceEditor: View {
                     Toggle("Afficher l'onglet", isOn: store.binding(id, \.isVisible, fallback: true))
                 }
 
-                Section("Apparence") {
-                    ColorPicker("Couleur", selection: Binding(
-                        get: { service.color },
-                        set: { color in
-                            if let hex = color.hexString { store.update(id) { $0.colorHex = hex } }
-                        }
-                    ), supportsOpacity: false)
-                    HStack {
-                        TextField("Symbole", text: store.binding(id, \.symbolName, fallback: ""))
-                        Image(systemName: service.resolvedSymbol)
-                            .foregroundStyle(service.color)
-                            .frame(width: 24)
-                    }
-                    HStack {
-                        Link("Parcourir les symboles (app SF Symbols)", destination: URL(string: "https://developer.apple.com/sf-symbols/")!)
-                            .font(.caption)
-                        Spacer()
-                        Button("Icône et couleur par défaut") {
-                            store.update(id) {
-                                $0.symbolName = $0.kind.symbolName
-                                $0.colorHex = $0.kind.colorHex
-                            }
-                        }
-                        .disabled(service.symbolName == service.kind.symbolName && service.colorHex == service.kind.colorHex)
-                    }
-                }
+                IconSettingsSection(service: service)
 
                 Section {
                     Toggle("Accepter un certificat auto-signé", isOn: store.binding(id, \.allowsSelfSignedCertificate, fallback: false))
+                    Toggle("Ne jamais décharger cet onglet", isOn: store.binding(id, \.keepsAlive, fallback: false))
                     LabeledContent("Zoom de la page") {
                         HStack {
                             Text(service.zoom, format: .percent.precision(.fractionLength(0)))
@@ -230,10 +209,12 @@ private struct ServiceEditor: View {
                 } header: {
                     Text("Connexion")
                 } footer: {
-                    Text("Le certificat n'est accepté que pour l'hôte de ce service. Chaque service garde ses propres cookies : effacer ceux-ci te déconnecte de ce service seulement.")
+                    Text("Le certificat n'est accepté que pour l'hôte de ce service. Garder l'onglet chargé évite de devoir se reconnecter aux services qui ferment la session quand leur page est fermée, comme Proxmox. Chaque service garde ses propres cookies : effacer ceux-ci te déconnecte de ce service seulement.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
+
+                AutofillSettingsSection(service: service)
             }
             .formStyle(.grouped)
             .onAppear { address = service.address }

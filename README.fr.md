@@ -31,12 +31,19 @@ Chaque page reste ouverte quand tu changes d'onglet, garde sa propre connexion, 
 
 ## ✨ Fonctionnalités
 
-### 🗂️ Onglets dans la barre de titre
+### 🗂️ Onglets : capsule ou dock
 
-- Une **barre d'onglets en verre** (style macOS 26) en haut de la fenêtre : chaque service a son icône et sa couleur, et la surbrillance glisse d'un onglet à l'autre.
-- Quand la fenêtre se rétrécit, les onglets ne gardent que leur icône (l'onglet ouvert garde son nom).
+Deux styles au choix dans **Réglages › Général** :
+
+- **Capsule en haut** : une barre d'onglets en verre (style macOS 26) dans la barre de titre. Chaque service a son icône et sa couleur, seul l'onglet ouvert affiche son nom, et la surbrillance glisse d'un onglet à l'autre. Tu peux afficher le nom de tous les onglets si la fenêtre est assez large.
+- **Dock en bas** : un dock flottant en verre, aux icônes qui grossissent sous le pointeur comme le Dock de macOS, avec le nom et l'état du service au-dessus de l'icône et un point sous l'onglet ouvert. Il se masque tout seul et apparaît quand le pointeur touche le bas de la fenêtre, ou reste affiché, la page lui laissant sa place.
+
+Et avec les deux :
+
+- **Sélecteur rapide (⌘K)** : tape quelques lettres (`prox`, `ha` pour Home Assistant, un bout d'adresse), Entrée, et tu y es. Il propose aussi les actions courantes sur le service : recharger, remplir l'identifiant, ouvrir dans le navigateur, décharger, modifier.
 - **⌘1 … ⌘9** pour aller à un onglet, **⌃⇥ / ⌃⇧⇥** pour passer au suivant ou au précédent.
-- Clic droit sur un onglet : recharger, revenir à l'accueil du service, ouvrir dans le navigateur, copier l'adresse, modifier, masquer.
+- Clic droit sur un onglet : recharger, revenir à l'accueil du service, décharger, ouvrir dans le navigateur, copier l'adresse, modifier, masquer.
+- **Icônes officielles** pour chaque service, issues de [Dashboard Icons](https://dashboardicons.com) (la collection utilisée par Homarr et Homepage), avec leur variante claire en mode sombre. Ou n'importe quel SF Symbol, ou ta propre image.
 
 ### 🌐 Des pages qui restent ouvertes
 
@@ -47,9 +54,24 @@ Chaque page reste ouverte quand tu changes d'onglet, garde sa propre connexion, 
 - Précédent / Suivant / Recharger, **zoom par service** (⌘+ ⌘− ⌘0), ⌘-clic sur un lien pour l'ouvrir dans ton navigateur, et l'Inspecteur web (clic droit › Inspecter l'élément).
 - Le mode clair ou sombre est transmis aux pages qui le gèrent (Home Assistant, AdGuard, Zigbee2MQTT…).
 
+### 💤 Onglets inactifs déchargés
+
+Comme Safari ou Chrome, LabPanel peut décharger les onglets que tu n'as pas regardés depuis un moment (5, 15, 30 minutes ou une heure, ou jamais) pour libérer leur mémoire. Un onglet déchargé apparaît atténué et se rouvre **à la même page** quand tu y reviens ; les cookies restent, donc tu restes connecté tant que le service n'a pas expiré ta session. Si le Mac manque de mémoire, les onglets en arrière-plan sont déchargés aussitôt.
+
+Chaque service peut en être exempté : **Proxmox l'est d'office**, parce qu'il ferme ta session deux heures après la fermeture de sa page.
+
 ### 🔐 Certificats auto-signés
 
 Les consoles de Proxmox, DSM et UniFi arrivent avec un certificat auto-signé. LabPanel l'accepte **pour l'hôte du service seulement** : d'office pour ces trois-là, au choix pour les autres. Si une page est bloquée par son certificat, l'écran d'erreur propose un bouton **Faire confiance**.
+
+### 🔑 Connexion automatique
+
+Pour les services qui te déconnectent souvent (Proxmox…), LabPanel peut remplir le formulaire de connexion avec un identifiant et un mot de passe rangés dans le **trousseau de ton Mac**, et le valider si tu veux. Il gère les formulaires construits après le chargement (Proxmox), les connexions en deux étapes (DSM) et les formulaires dans le shadow DOM (Home Assistant).
+
+- Le script de remplissage tourne dans un monde JavaScript isolé, invisible pour la page, et l'app ne donne l'identifiant qu'aux pages de l'hôte du service.
+- Si la connexion échoue, le formulaire n'est pas revalidé avant deux minutes : un mauvais mot de passe ne peut pas bloquer ton compte.
+- **Remplir l'identifiant** (⌥⌘L, ou clic droit sur un onglet) remplit la page affichée à tout moment.
+- Le mot de passe n'est lu dans le trousseau que lorsqu'un formulaire de connexion apparaît. Avec un build de développement (lancé depuis Xcode), macOS redemande l'accès au trousseau après chaque compilation, parce que la signature change : clique sur **Toujours autoriser**.
 
 ### 🟢 Disponibilité
 
@@ -59,9 +81,10 @@ Chaque minute (et quand tu reviens sur l'app ou que le Mac sort de veille), LabP
 
 - Les neuf services de départ, et autant de **services personnalisés** que tu veux.
 - Glisser pour réordonner les onglets, masquer un onglet sans le supprimer.
-- Nom, adresse, **couleur** et **icône** (n'importe quel [SF Symbol](https://developer.apple.com/sf-symbols/)) de chaque service.
+- Nom, adresse, **couleur** et **icône** de chaque service : icône officielle (avec une recherche parmi les 3 000+ icônes de Dashboard Icons), [SF Symbol](https://developer.apple.com/sf-symbols/) ou image de ton Mac.
 - **Effacer les cookies et les données** d'un service (te déconnecte de celui-ci seulement).
 - Apparence : automatique, claire ou sombre.
+- **Langue** : celle du système, français ou anglais (appliquée après une relance).
 
 ## 🧩 Compatibilité
 
@@ -79,10 +102,12 @@ Toute interface web joignable depuis ton Mac convient : réseau local, VPN (Head
 
 | Raccourci | Action |
 |---|---|
+| ⌘K | Sélecteur rapide |
 | ⌘1 … ⌘9 | Aller à l'onglet 1 … 9 |
 | ⌃⇥ / ⌃⇧⇥ | Onglet suivant / précédent |
 | ⌘R / ⇧⌘R | Recharger / recharger sans le cache |
 | ⇧⌘H | Revenir à l'accueil du service |
+| ⌥⌘L | Remplir l'identifiant |
 | ⌘[ / ⌘] | Page précédente / suivante |
 | ⌘+ / ⌘− / ⌘0 | Agrandir / réduire / taille réelle |
 | ⌥⌘O | Ouvrir dans le navigateur par défaut |
@@ -101,9 +126,10 @@ LabPanel ne collecte et n'envoie rien sur toi : ni compte, ni statistiques, ni p
 
 - les pages de tes services, aux adresses que tu as saisies ;
 - la vérification de disponibilité (un `GET` par minute vers chaque service affiché, dont le contenu n'est pas lu) ;
+- les icônes officielles, téléchargées une fois depuis `cdn.jsdelivr.net` (Dashboard Icons) puis gardées sur ton Mac ;
 - les mises à jour (ce dépôt GitHub).
 
-Les cookies et données des sites sont rangés par WebKit dans ta bibliothèque utilisateur, séparément pour chaque service. Les mots de passe saisis dans les pages sont gérés par les pages elles-mêmes ; les mots de passe HTTP restent en mémoire, pour la session seulement.
+Les cookies et données des sites sont rangés par WebKit dans ta bibliothèque utilisateur, séparément pour chaque service. Les mots de passe saisis dans les pages sont gérés par les pages elles-mêmes ; les mots de passe HTTP restent en mémoire, pour la session seulement. Les identifiants enregistrés pour la connexion automatique sont rangés dans le trousseau macOS (« LabPanel – <service> » dans Trousseaux d'accès), jamais dans les réglages de LabPanel.
 
 ## 📥 Installation
 
@@ -127,6 +153,14 @@ Les cookies et données des sites sont rangés par WebKit dans ta bibliothèque 
 LabPanel se met à jour toute seule : elle cherche une nouvelle version une fois par jour et propose de l'installer, avec ses notes (ou **LabPanel › Rechercher les mises à jour…**). Les mises à jour sont signées, et LabPanel refuse tout fichier qui n'a pas été signé par son auteur. La recherche automatique se désactive dans **Réglages › Mises à jour**. Tes services et tes connexions sont conservés.
 
 ## 📝 Historique
+
+### 0.2.0
+- Deux styles d'onglets : capsule en haut (seul l'onglet ouvert affiche son nom, option pour les afficher tous) ou dock flottant en bas (grossissement, masquage automatique).
+- Sélecteur rapide (⌘K) pour les services et leurs actions courantes.
+- Onglets inactifs déchargés après un délai choisi ou quand la mémoire manque, exemption par service (activée pour Proxmox).
+- Icônes officielles des services (Dashboard Icons) avec recherche, SF Symbols ou images personnelles.
+- Choix de la langue de l'interface dans les Réglages.
+- Connexion automatique depuis le trousseau macOS (remplir, ou remplir et valider), avec **Remplir l'identifiant** (⌥⌘L).
 
 ### 0.1.0
 - Première version.
@@ -186,4 +220,4 @@ LabPanel n'est affiliée ni à Ubiquiti, ni à Synology, ni à Proxmox, AdGuard,
 
 LabPanel est distribuée sous [licence MIT](LICENSE).
 
-Les mises à jour utilisent [Sparkle](https://sparkle-project.org), distribué sous licence MIT.
+Les mises à jour utilisent [Sparkle](https://sparkle-project.org), distribué sous licence MIT. Les icônes des services viennent de [Dashboard Icons](https://github.com/homarr-labs/dashboard-icons) (Apache 2.0) ; elles sont téléchargées par l'app, pas livrées avec, et les logos appartiennent à leurs propriétaires.

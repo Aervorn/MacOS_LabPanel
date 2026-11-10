@@ -18,6 +18,7 @@ struct LabPanelApp: App {
     @State private var monitor = AvailabilityMonitor()
     @State private var preferences = AppPreferences()
     @State private var updater = AppUpdater()
+    @State private var icons = IconLibrary()
 
     var body: some Scene {
         // Une seule fenêtre. Les pages vivent dans `browser` : fermer la fenêtre puis la rouvrir
@@ -30,7 +31,15 @@ struct LabPanelApp: App {
                 .environment(monitor)
                 .environment(preferences)
                 .environment(updater)
-                .task { preferences.appearance.apply() }
+                .environment(icons)
+                .task {
+                    preferences.appearance.apply()
+                    icons.refreshCatalogIfNeeded()
+                    browser.startUnloading { [store] in (store.selected?.id, store.services) }
+                }
+                .onChange(of: preferences.unloadDelay, initial: true) { _, delay in
+                    browser.unloadAfter = delay.duration
+                }
                 .onChange(of: preferences.checksAvailability, initial: true) { _, enabled in
                     if enabled && !Self.isRunningTests {
                         monitor.start { [store] in store.services }
@@ -65,6 +74,7 @@ struct LabPanelApp: App {
                 .environment(monitor)
                 .environment(preferences)
                 .environment(updater)
+                .environment(icons)
         }
     }
 }
@@ -91,6 +101,9 @@ private struct PageCommands: Commands {
                 .disabled(session == nil)
             Button("Revenir à l'accueil du service") { session?.loadHome() }
                 .keyboardShortcut("h", modifiers: [.command, .shift])
+                .disabled(session == nil)
+            Button("Remplir l'identifiant") { session?.fillCredentials() }
+                .keyboardShortcut("l", modifiers: [.command, .option])
                 .disabled(session == nil)
             Divider()
             Button("Page précédente") { session?.goBack() }
@@ -131,6 +144,9 @@ private struct ServicesCommands: Commands {
 
     var body: some Commands {
         CommandMenu("Services") {
+            Button("Aller à…") { store.showsSwitcher.toggle() }
+                .keyboardShortcut("k", modifiers: .command)
+            Divider()
             let visible = Array(store.visibleServices.prefix(9).enumerated())
             ForEach(visible, id: \.element.id) { index, service in
                 Button {

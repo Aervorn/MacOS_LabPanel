@@ -24,6 +24,9 @@ final class ServiceStore {
     /// Service ouvert dans les Réglages (« Modifier… » depuis un onglet).
     var editingID: UUID?
 
+    /// Sélecteur rapide (⌘K) affiché.
+    var showsSwitcher = false
+
     nonisolated static let servicesKey = "services.v1"
     nonisolated static let selectionKey = "services.selected"
 

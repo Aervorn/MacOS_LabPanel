@@ -3,7 +3,8 @@ import SwiftUI
 /// Barre d'onglets, au centre de la barre de titre, sur une capsule de verre.
 ///
 /// L'onglet choisi est surligné à la couleur de son service ; la surbrillance glisse d'un onglet
-/// à l'autre. Quand la fenêtre est étroite, seuls les icônes restent, sauf pour l'onglet choisi.
+/// à l'autre. En mode compact (le réglage par défaut, ou une fenêtre trop étroite), seul l'onglet
+/// choisi affiche son nom.
 struct TabStrip: View {
     let services: [Service]
     let selectedID: UUID?
@@ -42,16 +43,18 @@ private struct TabButton: View {
 
     @Environment(AvailabilityMonitor.self) private var monitor
     @Environment(Browser.self) private var browser
-    @Environment(ServiceStore.self) private var store
-    @Environment(\.openSettings) private var openSettings
     @State private var hovering = false
 
     private var showsName: Bool { !compact || isSelected }
+    private var isUnloaded: Bool { browser.isUnloaded(service.id) }
 
     var body: some View {
         Button(action: action) {
             HStack(spacing: 6) {
                 ServiceIcon(service: service, size: 20)
+                    // Onglet déchargé de la mémoire : atténué, comme dans Safari.
+                    .opacity(isUnloaded ? 0.45 : 1)
+                    .saturation(isUnloaded ? 0.3 : 1)
                     .overlay(alignment: .bottomTrailing) {
                         StatusDot(availability: monitor.availability(of: service.id))
                             .offset(x: 2, y: 2)
@@ -87,34 +90,10 @@ private struct TabButton: View {
         .help(tooltip)
         .accessibilityLabel(Text(verbatim: service.name))
         .accessibilityAddTraits(isSelected ? .isSelected : [])
-        .contextMenu { menu }
+        .contextMenu { TabContextMenu(service: service, isSelected: isSelected) }
     }
 
     private var tooltip: String {
-        var lines = [service.name]
-        if let url = service.url { lines.append(url.absoluteString) }
-        if service.isConfigured { lines.append(monitor.availability(of: service.id).label) }
-        return lines.joined(separator: "\n")
-    }
-
-    @ViewBuilder private var menu: some View {
-        let session = browser.session(service.id)
-        Button("Recharger") { session?.reload() }
-            .disabled(session == nil)
-        Button("Revenir à l'accueil du service") { session?.loadHome() }
-            .disabled(session == nil)
-        Divider()
-        Button("Ouvrir dans le navigateur") { URLActions.openInBrowser(session?.displayedURL ?? service.url) }
-            .disabled(!service.isConfigured)
-        Button("Copier l'adresse") { URLActions.copy(session?.displayedURL ?? service.url) }
-            .disabled(!service.isConfigured)
-        Divider()
-        Button("Modifier…") {
-            store.editingID = service.id
-            openSettings()
-        }
-        Button("Masquer l'onglet") {
-            store.update(service.id) { $0.isVisible = false }
-        }
+        TabTooltip.text(for: service, monitor: monitor, browser: browser)
     }
 }

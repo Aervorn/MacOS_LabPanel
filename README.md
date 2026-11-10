@@ -31,12 +31,19 @@ Each page stays alive when you switch tabs, keeps its own sign-in, and a dot on 
 
 ## ✨ Features
 
-### 🗂️ Tabs in the title bar
+### 🗂️ Tabs: capsule or dock
 
-- A **glass tab bar** (macOS 26 style) at the top of the window: each service has its icon and color, and the highlight slides from one tab to the next.
-- When the window gets narrow, tabs keep only their icon (the open tab keeps its name).
+Two styles to choose from in **Settings › General**:
+
+- **Capsule at the top**: a glass tab bar (macOS 26 style) in the title bar. Each service has its icon and color, only the open tab shows its name, and the highlight slides from one tab to the next. You can show every tab's name if the window is wide enough.
+- **Dock at the bottom**: a floating glass dock, with icons that grow under the pointer like the macOS Dock, the service's name and status above the icon, and a dot under the open tab. It hides itself and shows up when the pointer reaches the bottom of the window, or stays visible with the page leaving room for it.
+
+And with either style:
+
+- **Quick switcher (⌘K)**: type a few letters (`prox`, `ha` for Home Assistant, part of an address), Enter, and you're there. It also offers the common actions for the service: reload, fill login, open in browser, unload, edit.
 - **⌘1 … ⌘9** to jump to a tab, **⌃⇥ / ⌃⇧⇥** to go to the next or previous one.
-- Right-click a tab: reload, go back to the service's home page, open in your browser, copy the address, edit, hide.
+- Right-click a tab: reload, go back to the service's home page, unload, open in your browser, copy the address, edit, hide.
+- **Official icons** for each service, from [Dashboard Icons](https://dashboardicons.com) (the collection used by Homarr and Homepage), with their light variant in dark mode. Or any SF Symbol, or your own image.
 
 ### 🌐 Pages that stay alive
 
@@ -47,9 +54,24 @@ Each page stays alive when you switch tabs, keeps its own sign-in, and a dot on 
 - Back / Forward / Reload, **page zoom per service** (⌘+ ⌘− ⌘0), ⌘-click a link to open it in your default browser, and Web Inspector (right-click › Inspect Element).
 - Light or dark mode is passed on to pages that support it (Home Assistant, AdGuard, Zigbee2MQTT…).
 
+### 💤 Inactive tabs unloaded
+
+Like Safari or Chrome, LabPanel can unload tabs you haven't looked at for a while (5, 15, 30 minutes or an hour, or never) to free their memory. An unloaded tab appears dimmed and reopens **at the same page** when you come back; cookies are kept, so you stay signed in as long as the service hasn't expired your session. If the Mac runs low on memory, background tabs are unloaded right away.
+
+Each service can be exempted: **Proxmox is by default**, because it ends your session two hours after its page is closed.
+
 ### 🔐 Self-signed certificates
 
 Proxmox, DSM and UniFi consoles ship with a self-signed certificate. LabPanel accepts it **for that service's host only**, on by default for these three and optional for the others. If a page is blocked by its certificate, the error screen offers a **Trust** button.
+
+### 🔑 Automatic sign-in
+
+For services that keep signing you out (Proxmox…), LabPanel can fill the login form with a username and password stored in your **Mac's keychain**, and submit it if you like. It handles forms built after the page loads (Proxmox), two-step logins (DSM) and forms inside Shadow DOM (Home Assistant).
+
+- The filling script runs in an isolated JavaScript world the page can't see, and the app only gives the login to pages on the service's own host.
+- If sign-in fails, the form isn't submitted again for two minutes, so a wrong password can't lock your account.
+- **Fill Login** (⌥⌘L, or right-click a tab) fills the current page at any time.
+- The password is only read from the keychain when a login form shows up. With a development build (run from Xcode), macOS asks for keychain access again after each build, because the signature changes: click **Always Allow**.
 
 ### 🟢 Availability
 
@@ -59,9 +81,10 @@ Once a minute (and when you come back to the app or the Mac wakes up), LabPanel 
 
 - The nine starting services, plus as many **custom services** as you like.
 - Drag to reorder tabs, hide a tab without deleting it.
-- Name, address, **color** and **icon** (any [SF Symbol](https://developer.apple.com/sf-symbols/)) of each service.
+- Name, address, **color** and **icon** of each service: official icon (with a search through the 3,000+ icons of Dashboard Icons), [SF Symbol](https://developer.apple.com/sf-symbols/) or an image from your Mac.
 - **Clear cookies and data** of one service (signs you out of it only).
 - Appearance: automatic, light or dark.
+- **Language**: system, English or French (applied after a relaunch).
 
 ## 🧩 Compatibility
 
@@ -79,10 +102,12 @@ Any web interface reachable from your Mac works: local network, VPN (Headscale/T
 
 | Shortcut | Action |
 |---|---|
+| ⌘K | Quick switcher |
 | ⌘1 … ⌘9 | Go to tab 1 … 9 |
 | ⌃⇥ / ⌃⇧⇥ | Next / previous tab |
 | ⌘R / ⇧⌘R | Reload / reload without cache |
 | ⇧⌘H | Back to the service's home page |
+| ⌥⌘L | Fill login |
 | ⌘[ / ⌘] | Back / forward |
 | ⌘+ / ⌘− / ⌘0 | Zoom in / out / actual size |
 | ⌥⌘O | Open in default browser |
@@ -101,9 +126,10 @@ LabPanel collects nothing and sends nothing about you: no account, no analytics,
 
 - the pages of your services, to the addresses you entered;
 - the availability check (one `GET` per minute to each shown service, whose content isn't read);
+- official icons, downloaded once from `cdn.jsdelivr.net` (Dashboard Icons) and then kept on your Mac;
 - updates (this GitHub repository).
 
-Cookies and site data are stored by WebKit in your user Library, separately for each service. Passwords typed into pages are handled by the pages themselves; HTTP passwords are kept in memory for the session only.
+Cookies and site data are stored by WebKit in your user Library, separately for each service. Passwords typed into pages are handled by the pages themselves; HTTP passwords are kept in memory for the session only. Logins you save for automatic sign-in are stored in your macOS keychain (“LabPanel – <service>” in Keychain Access), never in LabPanel's settings.
 
 ## 📥 Installation
 
@@ -127,6 +153,14 @@ Cookies and site data are stored by WebKit in your user Library, separately for 
 LabPanel updates itself: it checks for a new version once a day and offers to install it, with its release notes (or use **LabPanel › Check for Updates…**). Updates are signed, and LabPanel refuses any file that wasn't signed by the author. Automatic checking can be turned off in **Settings › Updates**. Your services and sign-ins are kept.
 
 ## 📝 Changelog
+
+### 0.2.0
+- Two tab styles: capsule at the top (only the open tab shows its name, option to show them all) or floating dock at the bottom (magnification, auto-hide).
+- Quick switcher (⌘K) for services and their common actions.
+- Inactive tabs unloaded after a chosen delay or when memory runs low, per-service exemption (on for Proxmox).
+- Official service icons (Dashboard Icons) with search, SF Symbols or custom images.
+- Interface language picker in Settings.
+- Automatic sign-in from the macOS keychain (fill, or fill and submit), with **Fill Login** (⌥⌘L).
 
 ### 0.1.0
 - First version.
@@ -186,4 +220,4 @@ LabPanel isn't affiliated with Ubiquiti, Synology, Proxmox, AdGuard, Home Assist
 
 LabPanel is released under the [MIT License](LICENSE).
 
-Updates use [Sparkle](https://sparkle-project.org), released under the MIT License.
+Updates use [Sparkle](https://sparkle-project.org), released under the MIT License. Service icons come from [Dashboard Icons](https://github.com/homarr-labs/dashboard-icons) (Apache 2.0); they're downloaded by the app, not shipped with it, and the logos belong to their owners.

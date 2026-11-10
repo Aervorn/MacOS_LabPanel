@@ -1,18 +1,27 @@
 import AppKit
 import SwiftUI
 
-/// Fenêtre principale : la barre d'onglets dans la barre de titre, la page du service en dessous.
+/// Fenêtre principale : les onglets (capsule dans la barre de titre ou dock en bas),
+/// la page du service, et le sélecteur rapide (⌘K) par-dessus.
 struct ContentView: View {
     @Environment(ServiceStore.self) private var store
     @Environment(Browser.self) private var browser
     @Environment(AvailabilityMonitor.self) private var monitor
+    @Environment(AppPreferences.self) private var preferences
     @Environment(\.openSettings) private var openSettings
     @State private var windowWidth: CGFloat = 1400
 
     private var current: WebSession? { browser.session(store.selected?.id) }
 
-    /// Largeur nécessaire aux onglets avec leurs noms (estimation), plus les boutons de part et d'autre.
+    private var usesDock: Bool { preferences.navigationStyle == .dock }
+
+    /// Le dock reste affiché : la page lui laisse sa place en bas.
+    private var reservesDockSpace: Bool { usesDock && !preferences.dockAutoHides && !store.visibleServices.isEmpty }
+
+    /// Capsule : seul l'onglet ouvert affiche son nom, sauf si l'option « tous les noms » est cochée
+    /// et que la fenêtre est assez large (estimation : nom + icône par onglet, plus les boutons autour).
     private var compactTabs: Bool {
+        guard preferences.showsAllTabNames else { return true }
         let tabs = store.visibleServices.reduce(CGFloat(0)) { width, service in
             width + CGFloat(service.name.count) * 7.5 + 46
         }
@@ -27,12 +36,32 @@ struct ContentView: View {
                 emptyState
             }
         }
+        .padding(.bottom, reservesDockSpace ? FloatingDock.reservedHeight : 0)
+        .background(Color(nsColor: .windowBackgroundColor))
         .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { windowWidth = $0 }
         .navigationTitle(store.selected?.name ?? "LabPanel")
         .toolbar(removing: .title)
         .toolbar { toolbar }
-        .overlay(alignment: .bottom) { DownloadToast() }
-        .onChange(of: store.selected?.id, initial: true) {
+        .overlay(alignment: .bottom) {
+            if usesDock {
+                FloatingDock(autoHides: preferences.dockAutoHides)
+            }
+        }
+        .overlay(alignment: .bottom) {
+            DownloadToast()
+                .padding(.bottom, usesDock && !preferences.dockAutoHides ? FloatingDock.reservedHeight : 0)
+        }
+        .overlay {
+            if store.showsSwitcher {
+                QuickSwitcher()
+                    .transition(.opacity.combined(with: .scale(scale: 0.98, anchor: .top)))
+            }
+        }
+        .animation(.easeOut(duration: 0.15), value: store.showsSwitcher)
+        .animation(.spring(response: 0.35), value: preferences.navigationStyle)
+        .onChange(of: store.selected?.id, initial: true) { previous, _ in
+            browser.noteShown(previous)
+            store.showsSwitcher = false
             if let service = store.selected { browser.prepare(service) }
         }
         .onChange(of: store.services) { _, services in
@@ -80,15 +109,28 @@ struct ContentView: View {
         }
 
         ToolbarItem(placement: .principal) {
-            TabStrip(
-                services: store.visibleServices,
-                selectedID: store.selected?.id,
-                compact: compactTabs
-            ) { store.select($0) }
+            Group {
+                if usesDock {
+                    PageTitle(service: store.selected, session: current)
+                } else {
+                    TabStrip(
+                        services: store.visibleServices,
+                        selectedID: store.selected?.id,
+                        compact: compactTabs
+                    ) { store.select($0) }
+                }
+            }
         }
         .sharedBackgroundVisibility(.hidden)
 
         ToolbarItemGroup(placement: .primaryAction) {
+            Button {
+                store.showsSwitcher.toggle()
+            } label: {
+                Label("Aller à…", systemImage: "magnifyingglass")
+            }
+            .help("Aller à un service (⌘K)")
+
             Button {
                 URLActions.openInBrowser(current?.displayedURL ?? store.selected?.url)
             } label: {
@@ -118,6 +160,36 @@ struct ContentView: View {
                 .controlSize(.large)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+}
+
+/// Mode dock : le service ouvert et son adresse, au centre de la barre de titre.
+private struct PageTitle: View {
+    let service: Service?
+    let session: WebSession?
+    @Environment(AvailabilityMonitor.self) private var monitor
+
+    var body: some View {
+        if let service {
+            HStack(spacing: 8) {
+                ServiceIcon(service: service, size: 18)
+                Text(verbatim: service.name)
+                    .fontWeight(.semibold)
+                if let url = session?.displayedURL ?? service.url {
+                    Text(verbatim: url.host(percentEncoded: false).map { host in url.port.map { "\(host):\($0)" } ?? host } ?? "")
+                        .foregroundStyle(.secondary)
+                }
+                if service.isConfigured {
+                    StatusDot(availability: monitor.availability(of: service.id))
+                }
+            }
+            .font(.callout)
+            .lineLimit(1)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 6)
+            .glassEffect(.regular, in: .capsule)
+            .fixedSize()
+        }
     }
 }
 

@@ -1,18 +1,12 @@
 {
   "sourceLanguage" : "fr",
   "strings" : {
-    "" : {
-
-    },
-    "→ %@" : {
-
-    },
-    "À propos de LabPanel" : {
+    "%lld icônes" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About LabPanel"
+            "value" : "%lld icons"
           }
         }
       }
@@ -37,6 +31,16 @@
         }
       }
     },
+    "Actions · %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actions · %@"
+          }
+        }
+      }
+    },
     "Adresse" : {
       "localizations" : {
         "en" : {
@@ -47,22 +51,22 @@
         }
       }
     },
-    "Adresse à saisir" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Address needed"
-          }
-        }
-      }
-    },
     "Adresse non valable : http(s)://hôte[:port]" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Invalid address: http(s)://host[:port]"
+          }
+        }
+      }
+    },
+    "Adresse à saisir" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Address needed"
           }
         }
       }
@@ -87,6 +91,16 @@
         }
       }
     },
+    "Afficher le nom de tous les onglets" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show the name of every tab"
+          }
+        }
+      }
+    },
     "Agrandir" : {
       "localizations" : {
         "en" : {
@@ -103,6 +117,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Add a service"
+          }
+        }
+      }
+    },
+    "Aller à un service (⌘K)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Go to a service (⌘K)"
+          }
+        }
+      }
+    },
+    "Aller à un service ou une action" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Go to a service or action"
+          }
+        }
+      }
+    },
+    "Aller à…" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Go To…"
           }
         }
       }
@@ -137,6 +181,46 @@
         }
       }
     },
+    "Après 1 heure" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "After 1 hour"
+          }
+        }
+      }
+    },
+    "Après 15 minutes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "After 15 minutes"
+          }
+        }
+      }
+    },
+    "Après 30 minutes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "After 30 minutes"
+          }
+        }
+      }
+    },
+    "Après 5 minutes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "After 5 minutes"
+          }
+        }
+      }
+    },
     "Arrêter" : {
       "localizations" : {
         "en" : {
@@ -157,12 +241,42 @@
         }
       }
     },
+    "Aucun service ne correspond." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No matching service."
+          }
+        }
+      }
+    },
+    "Aucune icône ne correspond." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No matching icon."
+          }
+        }
+      }
+    },
     "Automatique" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Automatic"
+          }
+        }
+      }
+    },
+    "Capsule en haut" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Capsule at the top"
           }
         }
       }
@@ -177,12 +291,42 @@
         }
       }
     },
+    "Cette image ne peut pas être lue." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This image can't be read."
+          }
+        }
+      }
+    },
     "Chargement…" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Loading…"
+          }
+        }
+      }
+    },
+    "Choisir une autre image…" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose Another Image…"
+          }
+        }
+      }
+    },
+    "Choisis l'icône de %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose the icon for %@"
           }
         }
       }
@@ -223,6 +367,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Connection"
+          }
+        }
+      }
+    },
+    "Connexion automatique" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatic Sign-In"
           }
         }
       }
@@ -297,16 +451,6 @@
         }
       }
     },
-    "Désactivées dans les builds de développement lancés depuis Xcode." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Disabled in development builds run from Xcode."
-          }
-        }
-      }
-    },
     "Disponibilité inconnue" : {
       "localizations" : {
         "en" : {
@@ -317,12 +461,82 @@
         }
       }
     },
-    "Échec du téléchargement : %@" : {
+    "Dock en bas" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Download failed: %@"
+            "value" : "Dock at the bottom"
+          }
+        }
+      }
+    },
+    "Décharger %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unload %@"
+          }
+        }
+      }
+    },
+    "Décharger l'onglet" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unload Tab"
+          }
+        }
+      }
+    },
+    "Décharger les onglets inactifs" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unload inactive tabs"
+          }
+        }
+      }
+    },
+    "déchargé" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "unloaded"
+          }
+        }
+      }
+    },
+    "Déchargé de la mémoire : la page se rouvrira à ton retour" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unloaded from memory: the page will reopen when you come back"
+          }
+        }
+      }
+    },
+    "Désactivé" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Off"
+          }
+        }
+      }
+    },
+    "Désactivées dans les builds de développement lancés depuis Xcode." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disabled in development builds run from Xcode."
           }
         }
       }
@@ -367,6 +581,26 @@
         }
       }
     },
+    "Enregistrer" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        }
+      }
+    },
+    "Enregistré dans le trousseau" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved to the keychain"
+          }
+        }
+      }
+    },
     "Faire confiance à %@" : {
       "localizations" : {
         "en" : {
@@ -387,12 +621,52 @@
         }
       }
     },
+    "Icône" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Icon"
+          }
+        }
+      }
+    },
     "Icône et couleur par défaut" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Default Icon and Color"
+          }
+        }
+      }
+    },
+    "Icône introuvable : le symbole est affiché à la place." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Icon not found: the symbol is shown instead."
+          }
+        }
+      }
+    },
+    "Icônes de" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Icons from"
+          }
+        }
+      }
+    },
+    "Icônes des services :" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Service icons:"
           }
         }
       }
@@ -407,12 +681,42 @@
         }
       }
     },
+    "Identifiant LabPanel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LabPanel login"
+          }
+        }
+      }
+    },
+    "Image" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image"
+          }
+        }
+      }
+    },
     "Impossible de joindre %@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Can't reach %@"
+          }
+        }
+      }
+    },
+    "Inchangé" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unchanged"
           }
         }
       }
@@ -427,6 +731,46 @@
         }
       }
     },
+    "Jamais" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Never"
+          }
+        }
+      }
+    },
+    "L'identifiant est rangé dans le trousseau de ton Mac, et n'est donné qu'aux pages de l'hôte de ce service. Après un échec, le formulaire n'est pas revalidé avant deux minutes, pour ne pas bloquer ton compte. Le réglage s'applique au prochain chargement de la page ; « Remplir l'identifiant » (⌥⌘L) remplit la page affichée à tout moment." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The login is stored in your Mac's keychain, and only given to pages on this service's host. After a failure, the form isn't submitted again for two minutes, so your account doesn't get locked. The setting applies the next time the page loads; “Fill Login” (⌥⌘L) fills the current page at any time."
+          }
+        }
+      }
+    },
+    "La couleur sert à la surbrillance de l'onglet et au fil de chargement, ainsi qu'au fond du symbole." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The color is used for the tab highlight and the loading bar, and behind the symbol."
+          }
+        }
+      }
+    },
+    "La nouvelle langue s'appliquera au prochain lancement." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The new language will apply at next launch."
+          }
+        }
+      }
+    },
     "LabPanel" : {
       "localizations" : {
         "en" : {
@@ -437,12 +781,32 @@
         }
       }
     },
-    "Le certificat n'est accepté que pour l'hôte de ce service. Chaque service garde ses propres cookies : effacer ceux-ci te déconnecte de ce service seulement." : {
+    "Langue" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The certificate is only accepted for this service's host. Each service keeps its own cookies: clearing them signs you out of this service only."
+            "value" : "Language"
+          }
+        }
+      }
+    },
+    "Langue du système" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "System Language"
+          }
+        }
+      }
+    },
+    "Le certificat n'est accepté que pour l'hôte de ce service. Garder l'onglet chargé évite de devoir se reconnecter aux services qui ferment la session quand leur page est fermée, comme Proxmox. Chaque service garde ses propres cookies : effacer ceux-ci te déconnecte de ce service seulement." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The certificate is only accepted for this service's host. Keeping the tab loaded saves you from signing in again to services that end the session when their page is closed, such as Proxmox. Each service keeps its own cookies: clearing them signs you out of this service only."
           }
         }
       }
@@ -467,12 +831,12 @@
         }
       }
     },
-    "Les adresses, l'ordre des onglets et les services ajoutés sont perdus." : {
+    "Les adresses, l'ordre des onglets, les services ajoutés et les identifiants enregistrés sont perdus." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Addresses, tab order and added services will be lost."
+            "value" : "Addresses, tab order, added services and saved logins will be lost."
           }
         }
       }
@@ -517,6 +881,26 @@
         }
       }
     },
+    "Masquer le dock automatiquement" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatically hide the dock"
+          }
+        }
+      }
+    },
+    "Masqué, le dock apparaît quand le pointeur touche le bas de la fenêtre, et un instant quand tu changes d'onglet. Toujours affiché, la page lui laisse sa place. ⌘K ouvre le sélecteur rapide." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When hidden, the dock appears when the pointer reaches the bottom of the window, and briefly when you switch tabs. When always shown, the page leaves room for it. ⌘K opens the quick switcher."
+          }
+        }
+      }
+    },
     "Mises à jour" : {
       "localizations" : {
         "en" : {
@@ -533,6 +917,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Updates:"
+          }
+        }
+      }
+    },
+    "Modifier %@…" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit %@…"
           }
         }
       }
@@ -567,6 +961,36 @@
         }
       }
     },
+    "Mémoire" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memory"
+          }
+        }
+      }
+    },
+    "Navigation" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Navigation"
+          }
+        }
+      }
+    },
+    "Ne jamais décharger cet onglet" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Never unload this tab"
+          }
+        }
+      }
+    },
     "Ne répond pas" : {
       "localizations" : {
         "en" : {
@@ -587,12 +1011,32 @@
         }
       }
     },
+    "Nom de l'icône" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Icon name"
+          }
+        }
+      }
+    },
     "Nouveau service" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "New service"
+          }
+        }
+      }
+    },
+    "Officielle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Official"
           }
         }
       }
@@ -637,12 +1081,12 @@
         }
       }
     },
-    "Où se trouve %@ ?" : {
+    "Onglets" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Where is %@?"
+            "value" : "Tabs"
           }
         }
       }
@@ -653,6 +1097,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Open %@"
+          }
+        }
+      }
+    },
+    "Ouvrir %@ dans le navigateur" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open %@ in Browser"
           }
         }
       }
@@ -683,6 +1137,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Open Settings"
+          }
+        }
+      }
+    },
+    "Où se trouve %@ ?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Where is %@?"
           }
         }
       }
@@ -727,12 +1191,52 @@
         }
       }
     },
+    "Par défaut, seul l'onglet ouvert affiche son nom ; les noms de tous les onglets s'affichent si la fenêtre est assez large. ⌘K ouvre le sélecteur rapide." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "By default, only the open tab shows its name; every tab's name is shown if the window is wide enough. ⌘K opens the quick switcher."
+          }
+        }
+      }
+    },
     "Parcourir les symboles (app SF Symbols)" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Browse symbols (SF Symbols app)"
+          }
+        }
+      }
+    },
+    "Parcourir…" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Browse…"
+          }
+        }
+      }
+    },
+    "PNG, JPEG, HEIC, SVG… L'image est copiée dans LabPanel, réduite à 256 px : tu peux supprimer l'originale." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PNG, JPEG, HEIC, SVG… The image is copied into LabPanel at 256 px: you can delete the original."
+          }
+        }
+      }
+    },
+    "Pour l'interface de LabPanel. Les pages des services gardent leur propre réglage de langue." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "For LabPanel's interface. Service pages keep their own language setting."
           }
         }
       }
@@ -747,12 +1251,32 @@
         }
       }
     },
+    "Rangé dans le trousseau" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stored in the keychain"
+          }
+        }
+      }
+    },
     "Recharger" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reload"
+          }
+        }
+      }
+    },
+    "Recharger %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reload %@"
           }
         }
       }
@@ -817,6 +1341,106 @@
         }
       }
     },
+    "Rechercher une icône" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search for an icon"
+          }
+        }
+      }
+    },
+    "Relancer LabPanel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relaunch LabPanel"
+          }
+        }
+      }
+    },
+    "Remet les neuf services de départ, sans adresse. Les connexions déjà ouvertes sont oubliées." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Brings back the nine starting services, without addresses. Existing sign-ins are forgotten."
+          }
+        }
+      }
+    },
+    "Remplir" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fill"
+          }
+        }
+      }
+    },
+    "Remplir et valider" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fill and Submit"
+          }
+        }
+      }
+    },
+    "Remplir l'identifiant" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fill Login"
+          }
+        }
+      }
+    },
+    "Remplir l'identifiant de %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fill Login for %@"
+          }
+        }
+      }
+    },
+    "Remplissage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autofill"
+          }
+        }
+      }
+    },
+    "Revenir à l'accueil de %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Go to %@ Home"
+          }
+        }
+      }
+    },
+    "Revenir à l'accueil du service" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Go to Service Home"
+          }
+        }
+      }
+    },
     "Réduire" : {
       "localizations" : {
         "en" : {
@@ -857,16 +1481,6 @@
         }
       }
     },
-    "Remet les neuf services de départ, sans adresse. Les connexions déjà ouvertes sont oubliées." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Brings back the nine starting services, without addresses. Existing sign-ins are forgotten."
-          }
-        }
-      }
-    },
     "Rétablir" : {
       "localizations" : {
         "en" : {
@@ -897,16 +1511,6 @@
         }
       }
     },
-    "Revenir à l'accueil du service" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Go to Service Home"
-          }
-        }
-      }
-    },
     "Saisis l'adresse de son interface web, telle que tu l'ouvres dans ton navigateur." : {
       "localizations" : {
         "en" : {
@@ -917,12 +1521,12 @@
         }
       }
     },
-    "Sans lien avec les éditeurs des services affichés." : {
+    "Sans lien avec les éditeurs des services affichés ; leurs logos leur appartiennent." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Not affiliated with the makers of the services shown."
+            "value" : "Not affiliated with the makers of the services shown; their logos belong to them."
           }
         }
       }
@@ -977,12 +1581,12 @@
         }
       }
     },
-    "Son onglet disparaît, et ses cookies et données de connexion sont effacés." : {
+    "Son onglet disparaît, et ses cookies, données de connexion et identifiant enregistré sont effacés." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Its tab goes away, and its cookies and sign-in data are cleared."
+            "value" : "Its tab goes away, and its cookies, sign-in data and saved login are cleared."
           }
         }
       }
@@ -1057,22 +1661,22 @@
         }
       }
     },
-    "Téléchargé : %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Downloaded: %@"
-          }
-        }
-      }
-    },
     "Tous les services sont masqués. Affiche-les ou ajoute-en un dans les Réglages." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "All services are hidden. Show them or add one in Settings."
+          }
+        }
+      }
+    },
+    "Trousseau : %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keychain: %@"
           }
         }
       }
@@ -1097,6 +1701,36 @@
         }
       }
     },
+    "Téléchargement de la liste des icônes…" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloading the icon list…"
+          }
+        }
+      }
+    },
+    "Téléchargé : %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloaded: %@"
+          }
+        }
+      }
+    },
+    "Un onglet déchargé libère sa mémoire et apparaît atténué ; il se rouvre à la même page quand tu y reviens. Tu restes connecté tant que le service n'a pas expiré ta session. Si le Mac manque de mémoire, les onglets en arrière-plan sont déchargés aussitôt. Chaque service peut en être exempté dans ses réglages." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "An unloaded tab frees its memory and appears dimmed; it reopens at the same page when you come back. You stay signed in as long as the service hasn't expired your session. If the Mac runs low on memory, background tabs are unloaded right away. Each service can be exempted in its settings."
+          }
+        }
+      }
+    },
     "Une nouvelle version est proposée avec ses notes ; rien ne s'installe sans ton accord." : {
       "localizations" : {
         "en" : {
@@ -1113,16 +1747,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "One request per minute to each shown service, for its tab's dot: green if it responds, orange if its certificate isn't accepted, red if it doesn't respond."
-          }
-        }
-      }
-    },
-    "Vérifier la disponibilité des services" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Check service availability"
           }
         }
       }
@@ -1147,6 +1771,16 @@
         }
       }
     },
+    "Vérifier la disponibilité des services" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check service availability"
+          }
+        }
+      }
+    },
     "Zoom" : {
       "localizations" : {
         "en" : {
@@ -1163,6 +1797,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Page zoom"
+          }
+        }
+      }
+    },
+    "· téléchargées une fois, puis gardées sur le Mac. En mode sombre, la variante claire est utilisée quand elle existe." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "· downloaded once, then kept on the Mac. In dark mode, the light variant is used when there is one."
+          }
+        }
+      }
+    },
+    "À propos de LabPanel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About LabPanel"
+          }
+        }
+      }
+    },
+    "Échec du téléchargement : %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download failed: %@"
           }
         }
       }

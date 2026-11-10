@@ -64,6 +64,31 @@ enum ServiceKind: String, Codable, CaseIterable, Identifiable, Sendable {
         }
     }
 
+    /// Nom de l'icône officielle dans Dashboard Icons (github.com/homarr-labs/dashboard-icons).
+    var dashboardIconSlug: String? {
+        switch self {
+        case .unifi: "unifi"
+        case .dsm: "synology-dsm"
+        case .proxmox: "proxmox"
+        case .dockhand: "dockhand"
+        case .adguard: "adguard-home"
+        case .npm: "nginx-proxy-manager"
+        case .nut: "network-ups-tools"
+        case .homeAssistant: "home-assistant"
+        case .zigbee2mqtt: "zigbee2mqtt"
+        case .custom: nil
+        }
+    }
+
+    /// Icône proposée : l'officielle quand elle existe, sinon le symbole.
+    var defaultIcon: IconSource {
+        dashboardIconSlug.map { .dashboard(slug: $0) } ?? .symbol
+    }
+
+    /// Proxmox renouvelle sa session tant que sa page est ouverte ; fermée plus de deux heures,
+    /// il faut se reconnecter. On garde donc sa page en vie par défaut.
+    var keepsAliveByDefault: Bool { self == .proxmox }
+
     /// Schéma ajouté quand l'adresse saisie n'en a pas.
     var prefersHTTPS: Bool {
         switch self {
@@ -92,6 +117,18 @@ enum ServiceKind: String, Codable, CaseIterable, Identifiable, Sendable {
     }
 }
 
+/// Connexion automatique avec l'identifiant rangé dans le trousseau.
+enum AutoLogin: String, Codable, CaseIterable, Identifiable, Sendable {
+    /// Rien n'est rempli tout seul (« Remplir l'identifiant » reste disponible dans le menu).
+    case off
+    /// L'identifiant et le mot de passe sont remplis ; tu cliques toi-même sur « Connexion ».
+    case fill
+    /// Remplis puis validés.
+    case fillAndSubmit
+
+    var id: Self { self }
+}
+
 /// Un service du homelab, affiché dans un onglet.
 struct Service: Codable, Identifiable, Hashable, Sendable {
     var id: UUID
@@ -99,25 +136,37 @@ struct Service: Codable, Identifiable, Hashable, Sendable {
     var name: String
     /// Adresse telle que saisie (le schéma est complété par `url`).
     var address: String
+    /// Icône affichée : officielle, symbole ou image choisie.
+    var icon: IconSource
+    /// Symbole utilisé quand `icon` vaut `.symbol` (ou en attendant l'icône officielle).
     var symbolName: String
+    /// Couleur du service : surbrillance de l'onglet, fil de chargement, fond du symbole.
     var colorHex: String
     var isVisible: Bool
     var allowsSelfSignedCertificate: Bool
     /// Zoom de la page (1 = 100 %).
     var zoom: Double
+    /// La page n'est jamais déchargée de la mémoire, même inactive.
+    var keepsAlive: Bool
+    /// Remplissage de la page de connexion avec l'identifiant du trousseau.
+    var autoLogin: AutoLogin
 
     init(id: UUID = UUID(), kind: ServiceKind, name: String? = nil, address: String = "",
-         symbolName: String? = nil, colorHex: String? = nil, isVisible: Bool = true,
-         allowsSelfSignedCertificate: Bool? = nil, zoom: Double = 1) {
+         icon: IconSource? = nil, symbolName: String? = nil, colorHex: String? = nil, isVisible: Bool = true,
+         allowsSelfSignedCertificate: Bool? = nil, zoom: Double = 1, keepsAlive: Bool? = nil,
+         autoLogin: AutoLogin = .off) {
         self.id = id
         self.kind = kind
         self.name = name ?? kind.productName
         self.address = address
+        self.icon = icon ?? kind.defaultIcon
         self.symbolName = symbolName ?? kind.symbolName
         self.colorHex = colorHex ?? kind.colorHex
         self.isVisible = isVisible
         self.allowsSelfSignedCertificate = allowsSelfSignedCertificate ?? kind.usuallySelfSigned
         self.zoom = zoom
+        self.keepsAlive = keepsAlive ?? kind.keepsAliveByDefault
+        self.autoLogin = autoLogin
     }
 
     /// Adresse complète, ou `nil` si elle n'est pas encore renseignée ou pas valable.
@@ -132,7 +181,7 @@ struct Service: Codable, Identifiable, Hashable, Sendable {
 
     // Décodage tolérant : une clé ajoutée dans une version future ne casse pas les réglages existants.
     private enum CodingKeys: String, CodingKey {
-        case id, kind, name, address, symbolName, colorHex, isVisible, allowsSelfSignedCertificate, zoom
+        case id, kind, name, address, icon, symbolName, colorHex, isVisible, allowsSelfSignedCertificate, zoom, keepsAlive, autoLogin
     }
 
     init(from decoder: Decoder) throws {
@@ -143,11 +192,14 @@ struct Service: Codable, Identifiable, Hashable, Sendable {
             kind: kind,
             name: try c.decodeIfPresent(String.self, forKey: .name),
             address: try c.decodeIfPresent(String.self, forKey: .address) ?? "",
+            icon: try? c.decodeIfPresent(IconSource.self, forKey: .icon),
             symbolName: try c.decodeIfPresent(String.self, forKey: .symbolName),
             colorHex: try c.decodeIfPresent(String.self, forKey: .colorHex),
             isVisible: try c.decodeIfPresent(Bool.self, forKey: .isVisible) ?? true,
             allowsSelfSignedCertificate: try c.decodeIfPresent(Bool.self, forKey: .allowsSelfSignedCertificate),
-            zoom: try c.decodeIfPresent(Double.self, forKey: .zoom) ?? 1
+            zoom: try c.decodeIfPresent(Double.self, forKey: .zoom) ?? 1,
+            keepsAlive: try c.decodeIfPresent(Bool.self, forKey: .keepsAlive),
+            autoLogin: (try? c.decodeIfPresent(AutoLogin.self, forKey: .autoLogin)) ?? .off
         )
     }
 }

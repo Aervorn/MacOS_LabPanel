@@ -103,3 +103,110 @@ struct AvailabilityTests {
         #expect(!NetworkError.isBenign(domain: NSURLErrorDomain, code: NSURLErrorTimedOut))
     }
 }
+
+struct IconTests {
+    @Test func defaultIconsAreOfficialForKnownServices() {
+        #expect(Service(kind: .proxmox).icon == .dashboard(slug: "proxmox"))
+        #expect(Service(kind: .dsm).icon == .dashboard(slug: "synology-dsm"))
+        #expect(Service(kind: .custom).icon == .symbol)
+    }
+
+    @Test func olderSettingsGetTheOfficialIcon() throws {
+        let json = #"[{"kind":"adguard","address":"192.168.1.2:3000"}]"#
+        let decoded = try JSONDecoder().decode([Service].self, from: Data(json.utf8))
+        #expect(decoded.first?.icon == .dashboard(slug: "adguard-home"))
+    }
+
+    @Test func iconSourceRoundTrips() throws {
+        let sources: [IconSource] = [.symbol, .dashboard(slug: "unifi"), .file(name: "abc.png")]
+        let data = try JSONEncoder().encode(sources)
+        #expect(try JSONDecoder().decode([IconSource].self, from: data) == sources)
+    }
+
+    @Test func picksVariantForAppearance() {
+        let available: Set = ["proxmox", "proxmox-light", "unifi", "unifi-dark", "home-assistant"]
+        #expect(IconKey.resolve(.dashboard(slug: "proxmox"), dark: true, available: available) == .dashboard("proxmox-light"))
+        #expect(IconKey.resolve(.dashboard(slug: "proxmox"), dark: false, available: available) == .dashboard("proxmox"))
+        #expect(IconKey.resolve(.dashboard(slug: "unifi"), dark: false, available: available) == .dashboard("unifi-dark"))
+        #expect(IconKey.resolve(.dashboard(slug: "unifi"), dark: true, available: available) == .dashboard("unifi"))
+        #expect(IconKey.resolve(.dashboard(slug: "home-assistant"), dark: true, available: []) == .dashboard("home-assistant"))
+        #expect(IconKey.resolve(.symbol, dark: true, available: available) == nil)
+        #expect(IconKey.resolve(.dashboard(slug: "  "), dark: true, available: available) == nil)
+    }
+
+    @Test func cleansPastedNames() {
+        #expect(DashboardIcons.clean(" Proxmox.PNG ") == "proxmox")
+        #expect(DashboardIcons.pngURL("home-assistant").absoluteString
+            == "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/home-assistant.png")
+    }
+
+    @Test func readsTreeAndSearches() {
+        let tree = #"{"png":["proxmox.png","proxmox-backup-server.png","synology-dsm.png","pve-light.png"],"svg":["proxmox.svg"]}"#
+        let names = DashboardIcons.names(fromTree: Data(tree.utf8))
+        #expect(names == ["proxmox", "proxmox-backup-server", "pve-light", "synology-dsm"])
+        #expect(DashboardIcons.search("prox", in: names) == ["proxmox", "proxmox-backup-server"])
+        #expect(DashboardIcons.search("dsm", in: names) == ["synology-dsm"])
+        #expect(DashboardIcons.search("backup server", in: names) == ["proxmox-backup-server"])
+        #expect(DashboardIcons.names(fromTree: Data("nope".utf8)).isEmpty)
+    }
+
+    @Test func proxmoxStaysLoadedByDefault() {
+        #expect(Service(kind: .proxmox).keepsAlive)
+        #expect(!Service(kind: .homeAssistant).keepsAlive)
+    }
+}
+
+struct AutoLoginTests {
+    @Test func offByDefaultAndDecodedFromOlderSettings() throws {
+        #expect(Service(kind: .proxmox).autoLogin == .off)
+        let json = #"[{"kind":"proxmox","address":"pve:8006"}]"#
+        let decoded = try JSONDecoder().decode([Service].self, from: Data(json.utf8))
+        #expect(decoded.first?.autoLogin == .off)
+    }
+
+    @Test func roundTrips() throws {
+        let service = Service(kind: .proxmox, autoLogin: .fillAndSubmit)
+        let data = try JSONEncoder().encode(service)
+        #expect(try JSONDecoder().decode(Service.self, from: data).autoLogin == .fillAndSubmit)
+    }
+
+    @Test func submitsAtMostOncePerPeriod() {
+        var guardrail = AutoSubmitGuard(period: 120)
+        let start = Date(timeIntervalSince1970: 1_000)
+        // `allow` est mutating : on l'appelle hors de #expect, qui évalue son expression dans une closure.
+        let first = guardrail.allow(at: start)
+        let tooSoon = guardrail.allow(at: start.addingTimeInterval(5))
+        let stillTooSoon = guardrail.allow(at: start.addingTimeInterval(119))
+        let afterPeriod = guardrail.allow(at: start.addingTimeInterval(121))
+        #expect(first)
+        #expect(!tooSoon)
+        #expect(!stillTooSoon)
+        #expect(afterPeriod)
+    }
+}
+
+struct QuickSearchTests {
+    let names = ["UniFi", "DSM", "Proxmox", "Dockhand", "AdGuard", "NPM", "NUT", "Home Assistant", "Zigbee2MQTT"]
+
+    @Test func emptyQueryKeepsOrder() {
+        #expect(QuickSearch.rank(names, query: "  ", name: { $0 }) == names)
+    }
+
+    @Test func prefixBeatsContains() {
+        #expect(QuickSearch.rank(names, query: "prox", name: { $0 }) == ["Proxmox"])
+        #expect(QuickSearch.rank(names, query: "d", name: { $0 }).prefix(2) == ["DSM", "Dockhand"])
+    }
+
+    @Test func wordsInitialsAndAccents() {
+        #expect(QuickSearch.rank(names, query: "assist", name: { $0 }) == ["Home Assistant"])
+        #expect(QuickSearch.rank(names, query: "ha", name: { $0 }).first == "Home Assistant")
+        #expect(QuickSearch.score("élec", name: "Electricité") != nil)
+        #expect(QuickSearch.rank(names, query: "pmx", name: { $0 }) == ["Proxmox"])
+    }
+
+    @Test func matchesAddress() {
+        let score = QuickSearch.score("192.168.1.2", name: "AdGuard", detail: "192.168.1.2:3000")
+        #expect(score == 200)
+        #expect(QuickSearch.score("zzz", name: "Proxmox", detail: "pve.local") == nil)
+    }
+}

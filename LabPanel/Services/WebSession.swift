@@ -34,6 +34,10 @@ final class WebSession {
 
     @ObservationIgnored weak var browser: Browser?
     @ObservationIgnored private let delegate = WebDelegate()
+    @ObservationIgnored private let autofill: AutofillHandler
+    /// Identifiant lu dans le trousseau, gardé le temps de la page pour ne pas redemander l'accès.
+    @ObservationIgnored private var cachedCredential: CredentialStore.Credential?
+    @ObservationIgnored private var submitGuard = AutoSubmitGuard()
     @ObservationIgnored private var observations: [NSKeyValueObservation] = []
 
     /// Identifiant de Safari ajouté à celui de WebKit : certaines interfaces refusent un navigateur inconnu.
@@ -49,6 +53,10 @@ final class WebSession {
         configuration.applicationNameForUserAgent = Self.applicationNameForUserAgent
         configuration.preferences.isElementFullscreenEnabled = true
         configuration.preferences.javaScriptCanOpenWindowsAutomatically = true
+        // Le gestionnaire est créé ici : `self` n'est pas encore utilisable à ce stade de l'init.
+        let autofill = AutofillHandler()
+        self.autofill = autofill
+        Autofill.install(in: configuration, handler: autofill)
 
         let webView = WKWebView(frame: .zero, configuration: configuration)
         webView.allowsBackForwardNavigationGestures = true
@@ -60,32 +68,44 @@ final class WebSession {
         self.webView = webView
 
         delegate.session = self
+        autofill.session = self
         webView.navigationDelegate = delegate
         webView.uiDelegate = delegate
         observe()
     }
 
+    /// Suit l'état de la page. La closure d'observation ne capture que `self` (un KeyPath générique
+    /// n'est pas Sendable) : à chaque changement, on relit tout l'état, ce qui ne coûte rien.
     private func observe() {
-        func watch<Value>(_ keyPath: KeyPath<WKWebView, Value>, _ apply: @escaping (WebSession, Value) -> Void) {
-            observations.append(webView.observe(keyPath, options: [.initial, .new]) { [weak self] webView, _ in
-                let value = webView[keyPath: keyPath]
-                MainActor.assumeIsolated {
-                    guard let self else { return }
-                    apply(self, value)
-                }
+        func watch<Value>(_ keyPath: KeyPath<WKWebView, Value>) {
+            observations.append(webView.observe(keyPath, options: [.initial, .new]) { [weak self] _, _ in
+                MainActor.assumeIsolated { self?.syncState() }
             })
         }
-        watch(\.isLoading) { $0.isLoading = $1 }
-        watch(\.estimatedProgress) { $0.progress = $1 }
-        watch(\.canGoBack) { $0.canGoBack = $1 }
-        watch(\.canGoForward) { $0.canGoForward = $1 }
-        watch(\.url) { $0.currentURL = $1 }
+        watch(\.isLoading)
+        watch(\.estimatedProgress)
+        watch(\.canGoBack)
+        watch(\.canGoForward)
+        watch(\.url)
+    }
+
+    /// N'écrit que ce qui a changé, pour ne pas réveiller SwiftUI pour rien.
+    private func syncState() {
+        if isLoading != webView.isLoading { isLoading = webView.isLoading }
+        if progress != webView.estimatedProgress { progress = webView.estimatedProgress }
+        if canGoBack != webView.canGoBack { canGoBack = webView.canGoBack }
+        if canGoForward != webView.canGoForward { canGoForward = webView.canGoForward }
+        if currentURL != webView.url { currentURL = webView.url }
     }
 
     // MARK: - Actions
 
     func loadHome() {
         guard let url = service.url else { return }
+        load(url)
+    }
+
+    func load(_ url: URL) {
         failure = nil
         webView.load(URLRequest(url: url))
     }
@@ -118,6 +138,38 @@ final class WebSession {
         } else if updated.allowsSelfSignedCertificate && !previous.allowsSelfSignedCertificate,
                   failure?.isCertificate == true {
             reload()
+        }
+    }
+
+    // MARK: - Remplissage de l'identifiant
+
+    /// Remplit le formulaire de connexion affiché, quel que soit le réglage du service.
+    func fillCredentials() {
+        Autofill.fillNow(in: webView)
+    }
+
+    /// L'identifiant a changé dans les Réglages : on le relira dans le trousseau.
+    func credentialsChanged() {
+        cachedCredential = nil
+    }
+
+    /// Réponse au script de remplissage. Rien pour un cadre d'un autre hôte que celui du service.
+    func autofillReply(kind: String, force: Bool, frameHost: String) -> [String: Any]? {
+        guard let serviceHost = service.url?.host,
+              frameHost.caseInsensitiveCompare(serviceHost) == .orderedSame
+        else { return nil }
+
+        switch kind {
+        case "config":
+            return ["enabled": service.autoLogin != .off]
+        case "credentials":
+            guard force || service.autoLogin != .off else { return nil }
+            guard let credential = cachedCredential ?? CredentialStore.read(serviceID) else { return nil }
+            cachedCredential = credential
+            let submit = !force && service.autoLogin == .fillAndSubmit && submitGuard.allow()
+            return ["username": credential.username, "password": credential.password, "submit": submit]
+        default:
+            return nil
         }
     }
 

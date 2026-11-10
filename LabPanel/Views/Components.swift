@@ -26,16 +26,45 @@ extension Service {
     }
 }
 
-/// Icône d'un service : son symbole, blanc, sur une pastille arrondie à sa couleur.
+/// Icône d'un service : son icône officielle ou son image, sinon son symbole, blanc sur une
+/// pastille arrondie à sa couleur (aussi affiché le temps que l'icône se télécharge).
 struct ServiceIcon: View {
     let service: Service
     var size: CGFloat = 20
 
+    @Environment(IconLibrary.self) private var library
+    @Environment(\.colorScheme) private var colorScheme
+
+    var body: some View {
+        let key = library.key(for: service.icon, dark: colorScheme == .dark)
+        Group {
+            if let image = library.image(key) {
+                Image(nsImage: image)
+                    .resizable()
+                    .interpolation(.high)
+                    .scaledToFit()
+                    .frame(width: size, height: size)
+            } else {
+                SymbolTile(symbol: service.resolvedSymbol, color: service.color, size: size)
+            }
+        }
+        .task(id: key) {
+            if let key { await library.load(key) }
+        }
+    }
+}
+
+/// Symbole blanc sur une pastille arrondie de couleur.
+struct SymbolTile: View {
+    let symbol: String
+    let color: Color
+    var size: CGFloat = 20
+
     var body: some View {
         RoundedRectangle(cornerRadius: size * 0.3, style: .continuous)
-            .fill(service.color.gradient)
+            .fill(color.gradient)
             .overlay {
-                Image(systemName: service.resolvedSymbol)
+                Image(systemName: symbol)
                     .font(.system(size: size * 0.52, weight: .semibold))
                     .foregroundStyle(.white)
                     .shadow(color: .black.opacity(0.15), radius: 0.5, y: 0.5)

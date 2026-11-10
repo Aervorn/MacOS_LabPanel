@@ -45,7 +45,12 @@ struct AboutView: View {
                     Link("Sparkle", destination: Self.sparkleURL)
                     Text(verbatim: "(MIT)")
                 }
-                Text("Sans lien avec les éditeurs des services affichés.")
+                HStack(spacing: 4) {
+                    Text("Icônes des services :")
+                    Link(destination: DashboardIcons.projectURL) { Text(verbatim: "Dashboard Icons") }
+                    Text(verbatim: "(Apache 2.0)")
+                }
+                Text("Sans lien avec les éditeurs des services affichés ; leurs logos leur appartiennent.")
                     .padding(.top, 4)
             }
             .font(.caption)
