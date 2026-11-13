@@ -4,14 +4,16 @@
     <title>LabPanel</title>
     <link>https://github.com/Aervorn/MacOS_LabPanel</link>
     <item>
-      <title>LabPanel 0.2.1</title>
-      <pubDate>Tue, 10 Nov 2026 17:42:10 +0000</pubDate>
-      <sparkle:version>3</sparkle:version>
-      <sparkle:shortVersionString>0.2.1</sparkle:shortVersionString>
+      <title>LabPanel 0.2.2</title>
+      <pubDate>Fri, 13 Nov 2026 08:35:25 +0000</pubDate>
+      <sparkle:version>4</sparkle:version>
+      <sparkle:shortVersionString>0.2.2</sparkle:shortVersionString>
       <sparkle:minimumSystemVersion>26.0</sparkle:minimumSystemVersion>
-      <description><![CDATA[<ul><li>New app icon.</li></ul>]]></description>
-      <description xml:lang="fr"><![CDATA[<ul><li>Nouvelle icône de l'app.</li></ul>]]></description>
-      <enclosure url="https://github.com/Aervorn/MacOS_LabPanel/releases/download/v0.2.1/LabPanel-0.2.1.dmg" type="application/octet-stream" sparkle:edSignature="LJJs6z+SCCurdGzOfRO6RQi0Ya/9s1xjev5kywFvnDjZTaR7+CWNXQBGn+AAEQLNdc51WqBCEBrilb+GEG2XCg==" length="6125186" />
+      <description><![CDATA[<ul><li>Quick switcher shortcut can be changed in <b>Settings › General</b> (or turned off), so ⌘K can go to pages that use it, like Dockhand.</li>
+<li>Closing the main window now also closes Settings and About.</li></ul>]]></description>
+      <description xml:lang="fr"><![CDATA[<ul><li>Le raccourci du sélecteur rapide se règle dans <b>Réglages › Général</b> (ou se désactive), pour laisser ⌘K aux pages qui s'en servent, comme Dockhand.</li>
+<li>Fermer la fenêtre principale ferme aussi les Réglages et « À propos ».</li></ul>]]></description>
+      <enclosure url="https://github.com/Aervorn/MacOS_LabPanel/releases/download/v0.2.2/LabPanel-0.2.2.dmg" type="application/octet-stream" sparkle:edSignature="0XkV+++DRkryxvdJ9BLSXieEL/yUvXUF+mAm8yHALC7qdwwxYIBUcLEej4s4W2gVZ1x4MLxvd843Erot/mAtCw==" length="6158739" />
     </item>
   </channel>
 </rss>
