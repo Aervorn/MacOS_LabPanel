@@ -2,7 +2,7 @@ import AppKit
 import SwiftUI
 
 /// Fenêtre principale : les onglets (capsule dans la barre de titre ou dock en bas),
-/// la page du service, et le sélecteur rapide (⌘K) par-dessus.
+/// la page du service, et le sélecteur rapide par-dessus.
 struct ContentView: View {
     @Environment(ServiceStore.self) private var store
     @Environment(Browser.self) private var browser
@@ -64,6 +64,7 @@ struct ContentView: View {
             store.showsSwitcher = false
             if let service = store.selected { browser.prepare(service) }
         }
+        .background(MainWindowObserver())
         .onChange(of: store.services) { _, services in
             browser.sync(with: services)
             if let service = store.selected { browser.prepare(service) }
@@ -129,7 +130,7 @@ struct ContentView: View {
             } label: {
                 Label("Aller à…", systemImage: "magnifyingglass")
             }
-            .help("Aller à un service (⌘K)")
+            .help(preferences.quickSwitcherShortcut.map { Text("Aller à un service (\($0.display))") } ?? Text("Aller à un service"))
 
             Button {
                 URLActions.openInBrowser(current?.displayedURL ?? store.selected?.url)
@@ -160,6 +161,44 @@ struct ContentView: View {
                 .controlSize(.large)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+}
+
+/// Fermer la fenêtre principale ferme aussi les Réglages et « À propos » : sinon ces fenêtres
+/// restent seules à l'écran alors que LabPanel a l'air fermé.
+private struct MainWindowObserver: NSViewRepresentable {
+    func makeNSView(context: Context) -> NSView { Tracker() }
+    func updateNSView(_ nsView: NSView, context: Context) {}
+
+    final class Tracker: NSView {
+        private var observer: NSObjectProtocol?
+
+        override func viewDidMoveToWindow() {
+            super.viewDidMoveToWindow()
+            if let observer { NotificationCenter.default.removeObserver(observer) }
+            observer = nil
+            guard let window else { return }
+            observer = NotificationCenter.default.addObserver(
+                forName: NSWindow.willCloseNotification, object: window, queue: .main
+            ) { [weak window] _ in
+                MainActor.assumeIsolated { Self.closeAuxiliaryWindows(except: window) }
+            }
+        }
+
+        deinit {
+            if let observer { NotificationCenter.default.removeObserver(observer) }
+        }
+
+        @MainActor
+        private static func closeAuxiliaryWindows(except main: NSWindow?) {
+            for window in NSApp.windows where window !== main && window.isVisible {
+                let id = window.identifier?.rawValue ?? ""
+                // Réglages : « com_apple_SwiftUI_Settings_window » ; À propos : « about », « about-AppWindow-1 »…
+                if id.localizedCaseInsensitiveContains("settings") || id.hasPrefix(AboutView.windowID) {
+                    window.close()
+                }
+            }
+        }
     }
 }
 

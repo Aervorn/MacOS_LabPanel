@@ -83,13 +83,30 @@ private struct GeneralSettings: View {
                 Group {
                     switch preferences.navigationStyle {
                     case .capsule:
-                        Text("Par défaut, seul l'onglet ouvert affiche son nom ; les noms de tous les onglets s'affichent si la fenêtre est assez large. ⌘K ouvre le sélecteur rapide.")
+                        Text("Par défaut, seul l'onglet ouvert affiche son nom ; les noms de tous les onglets s'affichent si la fenêtre est assez large.")
                     case .dock:
-                        Text("Masqué, le dock apparaît quand le pointeur touche le bas de la fenêtre, et un instant quand tu changes d'onglet. Toujours affiché, la page lui laisse sa place. ⌘K ouvre le sélecteur rapide.")
+                        Text("Masqué, le dock apparaît quand le pointeur touche le bas de la fenêtre, et un instant quand tu changes d'onglet. Toujours affiché, la page lui laisse sa place.")
                     }
                 }
                 .font(.caption)
                 .foregroundStyle(.secondary)
+            }
+
+            Section {
+                ShortcutRecorder(
+                    "Sélecteur rapide",
+                    shortcut: Binding(
+                        get: { preferences.quickSwitcherShortcut },
+                        set: { preferences.quickSwitcherShortcut = $0 }
+                    ),
+                    defaultShortcut: .quickSwitcherDefault
+                )
+            } header: {
+                Text("Raccourci clavier")
+            } footer: {
+                Text("Ouvre le sélecteur rapide, pour aller à un service ou lancer une action. Si une page utilise déjà ce raccourci (⌘K dans Dockhand, par exemple), choisis-en un autre ou aucun : la touche reviendra à la page.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
 
             Section {

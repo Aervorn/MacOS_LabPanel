@@ -46,7 +46,7 @@ Deux styles au choix dans **Réglages › Général** :
 
 Et avec les deux :
 
-- **Sélecteur rapide (⌘K)** : tape quelques lettres (`prox`, `ha` pour Home Assistant, un bout d'adresse), Entrée, et tu y es. Il propose aussi les actions courantes sur le service : recharger, remplir l'identifiant, ouvrir dans le navigateur, décharger, modifier.
+- **Sélecteur rapide (⌘K)** : tape quelques lettres (`prox`, `ha` pour Home Assistant, un bout d'adresse), Entrée, et tu y es. Il propose aussi les actions courantes sur le service : recharger, remplir l'identifiant, ouvrir dans le navigateur, décharger, modifier. Son raccourci se change (ou se désactive) dans **Réglages › Général** si une page utilise déjà ⌘K, comme Dockhand.
 - **⌘1 … ⌘9** pour aller à un onglet, **⌃⇥ / ⌃⇧⇥** pour passer au suivant ou au précédent.
 - Clic droit sur un onglet : recharger, revenir à l'accueil du service, décharger, ouvrir dans le navigateur, copier l'adresse, modifier, masquer.
 - **Icônes officielles** pour chaque service, issues de [Dashboard Icons](https://dashboardicons.com) (la collection utilisée par Homarr et Homepage), avec leur variante claire en mode sombre. Ou n'importe quel SF Symbol, ou ta propre image.
@@ -91,6 +91,7 @@ Chaque minute (et quand tu reviens sur l'app ou que le Mac sort de veille), LabP
 - **Effacer les cookies et les données** d'un service (te déconnecte de celui-ci seulement).
 - Apparence : automatique, claire ou sombre.
 - **Langue** : celle du système, français ou anglais (appliquée après une relance).
+- **Raccourci du sélecteur rapide** : ⌘K par défaut, n'importe quelle lettre avec ⌘ ou ⌃, ou aucun.
 
 ## 🧩 Compatibilité
 
@@ -108,7 +109,7 @@ Toute interface web joignable depuis ton Mac convient : réseau local, VPN (Head
 
 | Raccourci | Action |
 |---|---|
-| ⌘K | Sélecteur rapide |
+| ⌘K | Sélecteur rapide (modifiable dans Réglages › Général) |
 | ⌘1 … ⌘9 | Aller à l'onglet 1 … 9 |
 | ⌃⇥ / ⌃⇧⇥ | Onglet suivant / précédent |
 | ⌘R / ⇧⌘R | Recharger / recharger sans le cache |
@@ -159,6 +160,10 @@ Les cookies et données des sites sont rangés par WebKit dans ta bibliothèque 
 LabPanel se met à jour toute seule : elle cherche une nouvelle version une fois par jour et propose de l'installer, avec ses notes (ou **LabPanel › Rechercher les mises à jour…**). Les mises à jour sont signées, et LabPanel refuse tout fichier qui n'a pas été signé par son auteur. La recherche automatique se désactive dans **Réglages › Mises à jour**. Tes services et tes connexions sont conservés.
 
 ## 📝 Historique
+
+### 0.2.2
+- Le raccourci du sélecteur rapide se règle dans **Réglages › Général** (ou se désactive), pour laisser ⌘K aux pages qui s'en servent, comme Dockhand.
+- Fermer la fenêtre principale ferme aussi les Réglages et « À propos ».
 
 ### 0.2.1
 - Nouvelle icône de l'app.

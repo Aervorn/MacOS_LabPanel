@@ -57,7 +57,7 @@ struct LabPanelApp: App {
                     .disabled(!updater.canCheckForUpdates)
             }
             PageCommands(store: store, browser: browser)
-            ServicesCommands(store: store)
+            ServicesCommands(store: store, preferences: preferences)
         }
 
         Window("À propos de LabPanel", id: AboutView.windowID) {
@@ -138,14 +138,16 @@ private struct PageCommands: Commands {
     }
 }
 
-/// Menu Services : un raccourci par onglet (⌘1 à ⌘9) et le passage d'un onglet à l'autre.
+/// Menu Services : le sélecteur rapide (raccourci réglable), un raccourci par onglet (⌘1 à ⌘9)
+/// et le passage d'un onglet à l'autre.
 private struct ServicesCommands: Commands {
     let store: ServiceStore
+    let preferences: AppPreferences
 
     var body: some Commands {
         CommandMenu("Services") {
             Button("Aller à…") { store.showsSwitcher.toggle() }
-                .keyboardShortcut("k", modifiers: .command)
+                .keyboardShortcut(preferences.quickSwitcherShortcut?.keyboardShortcut)
             Divider()
             let visible = Array(store.visibleServices.prefix(9).enumerated())
             ForEach(visible, id: \.element.id) { index, service in

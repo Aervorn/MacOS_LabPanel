@@ -46,7 +46,7 @@ Two styles to choose from in **Settings › General**:
 
 And with either style:
 
-- **Quick switcher (⌘K)**: type a few letters (`prox`, `ha` for Home Assistant, part of an address), Enter, and you're there. It also offers the common actions for the service: reload, fill login, open in browser, unload, edit.
+- **Quick switcher (⌘K)**: type a few letters (`prox`, `ha` for Home Assistant, part of an address), Enter, and you're there. It also offers the common actions for the service: reload, fill login, open in browser, unload, edit. Its shortcut can be changed (or turned off) in **Settings › General** if a page already uses ⌘K, like Dockhand.
 - **⌘1 … ⌘9** to jump to a tab, **⌃⇥ / ⌃⇧⇥** to go to the next or previous one.
 - Right-click a tab: reload, go back to the service's home page, unload, open in your browser, copy the address, edit, hide.
 - **Official icons** for each service, from [Dashboard Icons](https://dashboardicons.com) (the collection used by Homarr and Homepage), with their light variant in dark mode. Or any SF Symbol, or your own image.
@@ -91,6 +91,7 @@ Once a minute (and when you come back to the app or the Mac wakes up), LabPanel 
 - **Clear cookies and data** of one service (signs you out of it only).
 - Appearance: automatic, light or dark.
 - **Language**: system, English or French (applied after a relaunch).
+- **Quick switcher shortcut**: ⌘K by default, any letter with ⌘ or ⌃, or none.
 
 ## 🧩 Compatibility
 
@@ -108,7 +109,7 @@ Any web interface reachable from your Mac works: local network, VPN (Headscale/T
 
 | Shortcut | Action |
 |---|---|
-| ⌘K | Quick switcher |
+| ⌘K | Quick switcher (can be changed in Settings › General) |
 | ⌘1 … ⌘9 | Go to tab 1 … 9 |
 | ⌃⇥ / ⌃⇧⇥ | Next / previous tab |
 | ⌘R / ⇧⌘R | Reload / reload without cache |
@@ -159,6 +160,10 @@ Cookies and site data are stored by WebKit in your user Library, separately for 
 LabPanel updates itself: it checks for a new version once a day and offers to install it, with its release notes (or use **LabPanel › Check for Updates…**). Updates are signed, and LabPanel refuses any file that wasn't signed by the author. Automatic checking can be turned off in **Settings › Updates**. Your services and sign-ins are kept.
 
 ## 📝 Changelog
+
+### 0.2.2
+- Quick switcher shortcut can be changed in **Settings › General** (or turned off), so ⌘K can go to pages that use it, like Dockhand.
+- Closing the main window now also closes Settings and About.
 
 ### 0.2.1
 - New app icon.

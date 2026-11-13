@@ -1,12 +1,13 @@
 import AppKit
 import SwiftUI
 
-/// Sélecteur rapide (⌘K) : taper quelques lettres, Entrée, et on est sur le service.
+/// Sélecteur rapide (⌘K par défaut, réglable) : taper quelques lettres, Entrée, et on est sur le service.
 /// Propose aussi les actions courantes sur le service en surbrillance.
 struct QuickSwitcher: View {
     @Environment(ServiceStore.self) private var store
     @Environment(Browser.self) private var browser
     @Environment(AvailabilityMonitor.self) private var monitor
+    @Environment(AppPreferences.self) private var preferences
     @Environment(\.openSettings) private var openSettings
 
     @State private var query = ""
@@ -248,13 +249,16 @@ struct QuickSwitcher: View {
     private func installKeyMonitor() {
         guard keyMonitor == nil else { return }
         keyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
-            let modifiers = event.modifierFlags.intersection([.command, .option, .control])
+            // Le raccourci du sélecteur le referme
+            if let shortcut = preferences.quickSwitcherShortcut, Shortcut(event: event) == shortcut {
+                close()
+                return nil
+            }
             switch event.keyCode {
             case 125: move(+1); return nil               // ↓
             case 126: move(-1); return nil               // ↑
             case 36, 76: runHighlighted(); return nil    // Entrée
             case 53: close(); return nil                 // Échap
-            case 40 where modifiers == .command: close(); return nil  // ⌘K referme
             default: return event
             }
         }

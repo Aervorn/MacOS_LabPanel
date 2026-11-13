@@ -121,12 +121,12 @@
         }
       }
     },
-    "Aller à un service (⌘K)" : {
+    "Aller à un service (%@)" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Go to a service (⌘K)"
+            "value" : "Go to a service (%@)"
           }
         }
       }
@@ -891,12 +891,12 @@
         }
       }
     },
-    "Masqué, le dock apparaît quand le pointeur touche le bas de la fenêtre, et un instant quand tu changes d'onglet. Toujours affiché, la page lui laisse sa place. ⌘K ouvre le sélecteur rapide." : {
+    "Masqué, le dock apparaît quand le pointeur touche le bas de la fenêtre, et un instant quand tu changes d'onglet. Toujours affiché, la page lui laisse sa place." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "When hidden, the dock appears when the pointer reaches the bottom of the window, and briefly when you switch tabs. When always shown, the page leaves room for it. ⌘K opens the quick switcher."
+            "value" : "When hidden, the dock appears when the pointer reaches the bottom of the window, and briefly when you switch tabs. When always shown, the page leaves room for it."
           }
         }
       }
@@ -1191,12 +1191,12 @@
         }
       }
     },
-    "Par défaut, seul l'onglet ouvert affiche son nom ; les noms de tous les onglets s'affichent si la fenêtre est assez large. ⌘K ouvre le sélecteur rapide." : {
+    "Par défaut, seul l'onglet ouvert affiche son nom ; les noms de tous les onglets s'affichent si la fenêtre est assez large." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "By default, only the open tab shows its name; every tab's name is shown if the window is wide enough. ⌘K opens the quick switcher."
+            "value" : "By default, only the open tab shows its name; every tab's name is shown if the window is wide enough."
           }
         }
       }
@@ -1827,6 +1827,116 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Download failed: %@"
+          }
+        }
+      }
+    },
+    "Aller à un service" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Go to a service"
+          }
+        }
+      }
+    },
+    "Raccourci clavier" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keyboard Shortcut"
+          }
+        }
+      }
+    },
+    "Sélecteur rapide" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quick Switcher"
+          }
+        }
+      }
+    },
+    "Ouvre le sélecteur rapide, pour aller à un service ou lancer une action. Si une page utilise déjà ce raccourci (⌘K dans Dockhand, par exemple), choisis-en un autre ou aucun : la touche reviendra à la page." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens the quick switcher, to go to a service or run an action. If a page already uses this shortcut (⌘K in Dockhand, for example), pick another one or none: the key goes back to the page."
+          }
+        }
+      }
+    },
+    "Tape le raccourci…" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type Shortcut…"
+          }
+        }
+      }
+    },
+    "Aucun" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "None"
+          }
+        }
+      }
+    },
+    "Clique, puis tape la combinaison voulue. Échap pour annuler." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Click, then type the shortcut you want. Esc to cancel."
+          }
+        }
+      }
+    },
+    "Rétablir %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset to %@"
+          }
+        }
+      }
+    },
+    "Aucun raccourci" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Shortcut"
+          }
+        }
+      }
+    },
+    "Une lettre avec ⌘ ou ⌃ (⌥ et ⇧ en plus si tu veux)." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A letter with ⌘ or ⌃ (plus ⌥ and ⇧ if you like)."
+          }
+        }
+      }
+    },
+    "%@ est déjà utilisé par LabPanel ou macOS." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ is already used by LabPanel or macOS."
           }
         }
       }

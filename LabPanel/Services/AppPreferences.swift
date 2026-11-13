@@ -1,6 +1,7 @@
 import AppKit
 import Foundation
 import Observation
+import SwiftUI
 
 /// Apparence de l'app, et donc des pages : WebKit transmet le mode clair ou sombre aux sites
 /// (`prefers-color-scheme`), si bien que Home Assistant, AdGuard ou Zigbee2MQTT suivent aussi.
@@ -110,6 +111,70 @@ enum UnloadDelay: Int, CaseIterable, Identifiable {
     }
 }
 
+/// Raccourci clavier choisi dans les Réglages : une lettre, avec ⌘ ou ⌃ (et éventuellement ⌥ ⇧).
+/// Lettres seulement : les chiffres et la ponctuation changent de touche selon la disposition
+/// du clavier (AZERTY, QWERTY…), une lettre reste la même pour AppKit comme pour SwiftUI.
+struct Shortcut: Codable, Equatable {
+    var key: String
+    var command = false
+    var option = false
+    var control = false
+    var shift = false
+
+    /// ⌘K par défaut pour le sélecteur rapide.
+    static let quickSwitcherDefault = Shortcut(key: "k", command: true)
+
+    /// Raccourci de cette frappe, s'il peut en être un (une lettre, avec ⌘ ou ⌃).
+    init?(event: NSEvent) {
+        let flags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
+        guard flags.contains(.command) || flags.contains(.control),
+              let characters = event.charactersIgnoringModifiers?.lowercased(),
+              characters.count == 1, let letter = characters.first,
+              letter.isASCII, letter.isLetter
+        else { return nil }
+        self.init(key: String(letter), command: flags.contains(.command), option: flags.contains(.option),
+                  control: flags.contains(.control), shift: flags.contains(.shift))
+    }
+
+    init(key: String, command: Bool = false, option: Bool = false, control: Bool = false, shift: Bool = false) {
+        self.key = key
+        self.command = command
+        self.option = option
+        self.control = control
+        self.shift = shift
+    }
+
+    var keyboardShortcut: KeyboardShortcut {
+        var modifiers: EventModifiers = []
+        if command { modifiers.insert(.command) }
+        if option { modifiers.insert(.option) }
+        if control { modifiers.insert(.control) }
+        if shift { modifiers.insert(.shift) }
+        return KeyboardShortcut(KeyEquivalent(Character(key)), modifiers: modifiers)
+    }
+
+    /// Dans l'ordre des menus de macOS : ⌃⌥⇧⌘K.
+    var display: String {
+        (control ? "⌃" : "") + (option ? "⌥" : "") + (shift ? "⇧" : "") + (command ? "⌘" : "") + key.uppercased()
+    }
+
+    /// Déjà pris par LabPanel (menus Présentation, Édition, Fenêtre…) ou par macOS.
+    var isReserved: Bool {
+        let taken: [Shortcut] = [
+            .init(key: "a", command: true), .init(key: "c", command: true), .init(key: "f", command: true),
+            .init(key: "h", command: true), .init(key: "m", command: true), .init(key: "q", command: true),
+            .init(key: "r", command: true), .init(key: "v", command: true), .init(key: "w", command: true),
+            .init(key: "x", command: true), .init(key: "z", command: true),
+            .init(key: "c", command: true, shift: true), .init(key: "h", command: true, shift: true),
+            .init(key: "r", command: true, shift: true), .init(key: "z", command: true, shift: true),
+            .init(key: "h", command: true, option: true), .init(key: "l", command: true, option: true),
+            .init(key: "o", command: true, option: true),
+            .init(key: "f", command: true, control: true), .init(key: "q", command: true, control: true),
+        ]
+        return taken.contains(self)
+    }
+}
+
 /// Préférences générales. On n'écrit dans UserDefaults que si la valeur change vraiment
 /// (même précaution que dans Vestora, où une écriture à chaque mise à jour faisait boucler SwiftUI).
 @MainActor
@@ -162,6 +227,18 @@ final class AppPreferences {
         }
     }
 
+    /// Ouvre le sélecteur rapide ; `nil` : aucun raccourci (la touche reste à la page, à Dockhand par exemple).
+    var quickSwitcherShortcut: Shortcut? {
+        didSet {
+            guard quickSwitcherShortcut != oldValue else { return }
+            if let quickSwitcherShortcut, let data = try? JSONEncoder().encode(quickSwitcherShortcut) {
+                UserDefaults.standard.set(data, forKey: Self.switcherShortcutKey)
+            } else {
+                UserDefaults.standard.set(Self.noShortcut, forKey: Self.switcherShortcutKey)
+            }
+        }
+    }
+
     /// Langue choisie ; appliquée au prochain lancement.
     var language: AppLanguage {
         didSet {
@@ -181,6 +258,8 @@ final class AppPreferences {
     nonisolated static let navigationKey = "navigation.style"
     nonisolated static let allNamesKey = "navigation.capsule.allNames"
     nonisolated static let dockAutoHideKey = "navigation.dock.autoHide"
+    nonisolated static let switcherShortcutKey = "quickSwitcher.shortcut"
+    nonisolated static let noShortcut = "none"
 
     init() {
         appearance = UserDefaults.standard.string(forKey: Self.appearanceKey)
@@ -192,6 +271,13 @@ final class AppPreferences {
             .flatMap(NavigationStyle.init(rawValue:)) ?? .capsule
         showsAllTabNames = UserDefaults.standard.bool(forKey: Self.allNamesKey)
         dockAutoHides = UserDefaults.standard.object(forKey: Self.dockAutoHideKey) as? Bool ?? true
+        let storedShortcut = UserDefaults.standard.object(forKey: Self.switcherShortcutKey)
+        if storedShortcut as? String == Self.noShortcut {
+            quickSwitcherShortcut = nil
+        } else {
+            quickSwitcherShortcut = (storedShortcut as? Data)
+                .flatMap { try? JSONDecoder().decode(Shortcut.self, from: $0) } ?? .quickSwitcherDefault
+        }
         let language = AppLanguage.stored
         self.language = language
         languageAtLaunch = language
